@@ -10,7 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_27_231232) do
+ActiveRecord::Schema.define(version: 2021_02_02_001346) do
+
+  create_table "organizations", force: :cascade do |t|
+    t.string "name"
+    t.integer "owner_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["owner_id"], name: "index_organizations_on_owner_id"
+  end
+
+  create_table "positions", force: :cascade do |t|
+    t.string "role"
+    t.integer "filled_by_id", null: false
+    t.integer "organization_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["filled_by_id"], name: "index_positions_on_filled_by_id"
+    t.index ["organization_id"], name: "index_positions_on_organization_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -25,4 +43,7 @@ ActiveRecord::Schema.define(version: 2021_01_27_231232) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "organizations", "users", column: "owner_id"
+  add_foreign_key "positions", "organizations"
+  add_foreign_key "positions", "users", column: "filled_by_id"
 end

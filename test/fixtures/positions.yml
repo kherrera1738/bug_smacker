@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+admin:
+  role: Admin
+  filled_by: abby
+  organization: org1
+
+dev:
+  role: Dev
+  filled_by: jo
+  organization: org1
