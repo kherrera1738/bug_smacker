@@ -25,7 +25,7 @@ class TeamMembersController < ApplicationController
     @team_member = TeamMember.new(team_member_params)
 
     respond_to do |format|
-      if is_admin_or_pm? and @team_member.save
+      if is_admin_or_pm? and added_user_is_part_of_organization? and @team_member.save
         format.html { redirect_to @team_member, notice: "Team member was successfully created." }
         format.json { render :show, status: :created, location: @team_member }
       else
@@ -72,5 +72,9 @@ class TeamMembersController < ApplicationController
       @team_member.project.organization.positions.where("role=? AND filled_by_id=?", "Admin", current_user.id).exists? or
       (@team_member.project.organization.positions.where("role=? AND filled_by_id=?", "PM", current_user.id).exists? and 
       @team_member.project.team_members.where(user_id: current_user.id).exists?)
+    end
+
+    def added_user_is_part_of_organization?
+      @team_member.project.organization.positions.where(filled_by_id: params[:team_member][:user_id]).exists?
     end
 end

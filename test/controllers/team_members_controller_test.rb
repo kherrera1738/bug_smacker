@@ -8,6 +8,7 @@ class TeamMembersControllerTest < ActionDispatch::IntegrationTest
     @dev = users(:jo)
     @dev2 = users(:aleah) 
     @proj1 = projects(:proj1)
+    @other_org_user = users(:johnny)
     sign_in @owner
   end
 
@@ -21,9 +22,19 @@ class TeamMembersControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should create team_member" do
-    assert_difference('TeamMember.count') do
+  test "should create team_member if does not already exist or in same organization" do
+    assert_no_difference('TeamMember.count') do
       post team_members_url, params: { team_member: { project_id: @team_member.project_id, user_id: @team_member.user_id } }
+    end
+
+    sign_in @owner
+    assert_no_difference('TeamMember.count') do
+      post team_members_url, params: { team_member: { project_id: @team_member.project_id, user_id: @other_org_user.id } }
+    end
+
+    sign_in @owner
+    assert_difference('TeamMember.count') do
+      post team_members_url, params: { team_member: { project_id: @team_member.project_id, user_id: @dev.id } }
     end
 
     assert_redirected_to team_member_url(TeamMember.last)
