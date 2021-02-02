@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :team_members
+  resources :projects
   resources :positions
   resources :organizations
   devise_for :users, controllers: {

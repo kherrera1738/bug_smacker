@@ -30,4 +30,10 @@ class OrganizationTest < ActiveSupport::TestCase
     @org2 = @kev.owned_organizations.build(name: "org1")
     assert_not @org2.valid?
   end
+
+  test "organization can create project" do
+    assert_difference('Project.count') do
+      @org1.projects.create(name: 'a', description: "b")
+    end
+  end
 end

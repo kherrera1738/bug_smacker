@@ -10,6 +10,11 @@ admin:
   filled_by: abby
   organization: org1
 
+pm:
+  role: PM
+  filled_by: val
+  organization: org1
+
 owner_org2:
   role: Admin
   filled_by: abby
@@ -24,3 +29,13 @@ dev:
   role: Dev
   filled_by: jo
   organization: org1
+
+dev2:
+  role: Dev
+  filled_by: aleah
+  organization: org1
+
+dev_org2:
+  role: Dev
+  filled_by: jo
+  organization: org2

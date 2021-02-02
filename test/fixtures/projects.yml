@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+proj1:
+  name: proj1
+  description: MyText
+  organization: org1
+
+proj2:
+  name: proj2
+  description: MyText
+  organization: org2
