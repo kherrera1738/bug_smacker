@@ -21,7 +21,7 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create organization" do
     assert_difference('Organization.count') do
-      post organizations_url, params: { organization: { name: "org2", owner_id: @organization.owner_id } }
+      post organizations_url, params: { organization: { name: "org3", owner_id: @organization.owner_id } }
     end
 
     assert_redirected_to organization_url(Organization.last)
@@ -48,5 +48,14 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to organizations_url
+  end
+
+  test "organization creates owner admin account after self save" do
+    assert_difference('Organization.count') do
+      post organizations_url, params: { organization: { name: "org3", owner_id: @organization.owner_id } }
+    end
+
+    @org2 = Organization.where(name: "org3").first
+    assert @org2.positions.where(filled_by_id: @org2.owner_id).exists?
   end
 end

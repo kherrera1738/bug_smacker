@@ -1,9 +1,24 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
+owner_pos:
+  role: Admin
+  filled_by: kev
+  organization: org1
+
 admin:
   role: Admin
   filled_by: abby
   organization: org1
+
+owner_org2:
+  role: Admin
+  filled_by: abby
+  organization: org2
+
+admin_org2:
+  role: Admin
+  filled_by: johnny
+  organization: org2
 
 dev:
   role: Dev

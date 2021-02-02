@@ -4,3 +4,7 @@ org1:
   name: org1
   owner: kev
 
+org2:
+  name: org2
+  owner: abby
+

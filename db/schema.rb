@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_02_001346) do
+ActiveRecord::Schema.define(version: 2021_02_02_002343) do
 
   create_table "organizations", force: :cascade do |t|
     t.string "name"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 2021_02_02_001346) do
     t.integer "organization_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["filled_by_id", "organization_id"], name: "index_positions_on_filled_by_id_and_organization_id", unique: true
     t.index ["filled_by_id"], name: "index_positions_on_filled_by_id"
     t.index ["organization_id"], name: "index_positions_on_organization_id"
   end

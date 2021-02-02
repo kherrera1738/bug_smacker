@@ -24,7 +24,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "user should be able to create an organization" do
     assert_difference('Organization.count') do
-      @new_org = @kev.owned_organizations.create(name: "org2")
+      @new_org = @kev.owned_organizations.create(name: "org3")
     end
 
     assert @kev.owned_organizations.where(name: @new_org.name)

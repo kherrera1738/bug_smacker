@@ -1,5 +1,6 @@
 class PositionsController < ApplicationController
   before_action :set_position, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!
 
   # GET /positions or /positions.json
   def index
@@ -24,7 +25,7 @@ class PositionsController < ApplicationController
     @position = Position.new(position_params)
 
     respond_to do |format|
-      if @position.save
+      if is_admin? and @position.save
         format.html { redirect_to @position, notice: "Position was successfully created." }
         format.json { render :show, status: :created, location: @position }
       else
@@ -37,7 +38,7 @@ class PositionsController < ApplicationController
   # PATCH/PUT /positions/1 or /positions/1.json
   def update
     respond_to do |format|
-      if @position.update(position_params)
+      if !is_owner? and is_admin? and not_self? and @position.update(position_params)
         format.html { redirect_to @position, notice: "Position was successfully updated." }
         format.json { render :show, status: :ok, location: @position }
       else
@@ -65,5 +66,17 @@ class PositionsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def position_params
       params.require(:position).permit(:role, :filled_by_id, :organization_id)
+    end
+
+    def is_owner?
+      @position.filled_by_id == @position.organization.owner_id
+    end
+
+    def is_admin?
+      @position.organization.positions.where(role: "Admin", filled_by_id: current_user.id).exists?
+    end
+
+    def not_self?
+      @position.filled_by_id != current_user.id
     end
 end

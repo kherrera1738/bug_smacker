@@ -33,6 +33,9 @@ class OrganizationsController < ApplicationController
         format.json { render json: @organization.errors, status: :unprocessable_entity }
       end
     end
+
+    # Create an admin role for the owner
+    @organization.positions.create(filled_by_id: @organization.owner_id, role: 'Admin')
   end
 
   # PATCH/PUT /organizations/1 or /organizations/1.json
