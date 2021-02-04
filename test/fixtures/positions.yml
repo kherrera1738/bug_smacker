@@ -15,16 +15,6 @@ pm:
   filled_by: val
   organization: org1
 
-owner_org2:
-  role: Admin
-  filled_by: abby
-  organization: org2
-
-admin_org2:
-  role: Admin
-  filled_by: johnny
-  organization: org2
-
 dev:
   role: Dev
   filled_by: jo
@@ -35,7 +25,22 @@ dev2:
   filled_by: aleah
   organization: org1
 
+dev3:
+  role: Dev
+  filled_by: vick
+  organization: org1
+
 dev_org2:
   role: Dev
   filled_by: jo
+  organization: org2
+
+owner_org2:
+  role: Admin
+  filled_by: abby
+  organization: org2
+
+admin_org2:
+  role: Admin
+  filled_by: johnny
   organization: org2

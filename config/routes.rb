@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :tickets
   resources :team_members
   resources :projects
   resources :positions

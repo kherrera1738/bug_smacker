@@ -26,6 +26,9 @@ class OrganizationsController < ApplicationController
 
     respond_to do |format|
       if @organization.save
+        
+        # Create an admin role for the owner
+        @organization.positions.create(filled_by_id: @organization.owner_id, role: 'Admin')
         format.html { redirect_to @organization, notice: "Organization was successfully created." }
         format.json { render :show, status: :created, location: @organization }
       else
@@ -33,9 +36,6 @@ class OrganizationsController < ApplicationController
         format.json { render json: @organization.errors, status: :unprocessable_entity }
       end
     end
-
-    # Create an admin role for the owner
-    @organization.positions.create(filled_by_id: @organization.owner_id, role: 'Admin')
   end
 
   # PATCH/PUT /organizations/1 or /organizations/1.json

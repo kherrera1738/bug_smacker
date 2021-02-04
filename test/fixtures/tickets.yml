@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: t1
+  description: t1
+  project: proj1
+  priority: high
+  status: new
+  ticket_type: feature requests
+
+two:
+  title: t2
+  description: t2
+  project: proj2
+  priority: low
+  status: new
+  ticket_type: comments

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_02_231026) do
+ActiveRecord::Schema.define(version: 2021_02_03_234339) do
 
   create_table "organizations", force: :cascade do |t|
     t.string "name"
@@ -50,6 +50,22 @@ ActiveRecord::Schema.define(version: 2021_02_02_231026) do
     t.index ["user_id"], name: "index_team_members_on_user_id"
   end
 
+  create_table "tickets", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.integer "project_id", null: false
+    t.string "priority"
+    t.string "status"
+    t.string "ticket_type"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "submitted_by_id"
+    t.integer "assigned_dev_id"
+    t.index ["assigned_dev_id"], name: "index_tickets_on_assigned_dev_id"
+    t.index ["project_id"], name: "index_tickets_on_project_id"
+    t.index ["submitted_by_id"], name: "index_tickets_on_submitted_by_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -69,4 +85,5 @@ ActiveRecord::Schema.define(version: 2021_02_02_231026) do
   add_foreign_key "projects", "organizations"
   add_foreign_key "team_members", "projects"
   add_foreign_key "team_members", "users"
+  add_foreign_key "tickets", "projects"
 end
