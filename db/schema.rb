@@ -10,7 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_03_234339) do
+ActiveRecord::Schema.define(version: 2021_02_04_004054) do
+
+  create_table "histories", force: :cascade do |t| 
+    t.string "change_type"
+    t.string "old_value"
+    t.string "new_value"
+    t.integer "changed_by_id"
+    t.integer "ticket_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["changed_by_id"], name: "index_histories_on_changed_by_id"
+    t.index ["ticket_id"], name: "index_histories_on_ticket_id"
+  end
 
   create_table "organizations", force: :cascade do |t|
     t.string "name"
@@ -79,6 +91,7 @@ ActiveRecord::Schema.define(version: 2021_02_03_234339) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "histories", "tickets"
   add_foreign_key "organizations", "users", column: "owner_id"
   add_foreign_key "positions", "organizations"
   add_foreign_key "positions", "users", column: "filled_by_id"

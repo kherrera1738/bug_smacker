@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  change_type: assigned dev
+  old_value: jo
+  new_value: vick
+  changed_by: aleah
+  ticket: one
+
+two:
+  change_type: priority
+  old_value: low
+  new_value: high
+  changed_by: kev
+  ticket: two

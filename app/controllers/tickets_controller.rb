@@ -38,7 +38,11 @@ class TicketsController < ApplicationController
   # PATCH/PUT /tickets/1 or /tickets/1.json
   def update
     respond_to do |format|
+      old_value, new_value, change_type = find_changes
       if ok_to_edit? and @ticket.update(ticket_params)  
+        old_value ||= "nil" 
+        new_value ||= "nil"
+        @ticket.histories.create(changed_by_id: current_user.id, old_value: old_value, new_value: new_value, change_type: change_type)
         format.html { redirect_to @ticket, notice: "Ticket was successfully updated." }
         format.json { render :show, status: :ok, location: @ticket }
       else
@@ -99,5 +103,32 @@ class TicketsController < ApplicationController
 
     def can_edit_title_or_description?
       (params[:ticket][:title].nil? and params[:ticket][:description].nil?) or is_team_member?(current_user.id) or @ticket.submitted_by == current_user 
+    end
+
+    def find_changes
+      ticket_params = params[:ticket]
+      if !ticket_params[:assigned_dev_id].nil?
+        change_type = "assigned dev"
+        val = :assigned_dev_id
+      elsif !ticket_params[:submitted_by_id].nil?
+        change_type = "submitted by"
+        val = :submitted_by_id
+      elsif !ticket_params[:prioity].nil?
+        change_type = "priority"
+        val = :priority
+      elsif !ticket_params[:status].nil?
+        change_type = "status"
+        val = :status
+      elsif !ticket_params[:title].nil?
+        change_type = "title"
+        val = :title
+      else
+        change_type = "description"
+        val = :description
+      end
+
+      old_value = @ticket.send(val)
+      new_value = ticket_params[val]
+      return [old_value, new_value, change_type.to_s]
     end
 end
