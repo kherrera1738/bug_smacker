@@ -3,6 +3,7 @@ class Ticket < ApplicationRecord
   belongs_to :assigned_dev, class_name: "User", inverse_of: :assigned_tickets, optional: true
   belongs_to :submitted_by, class_name: "User", inverse_of: :submitted_tickets, optional: true
   has_many :histories, dependent: :destroy
+  has_many :comments, dependent: :destroy
 
   PRIORITIES = ["low", "medium", "high"] 
   STATUSES = ["new", "open", "in progress", "resolved", "additional information required"]

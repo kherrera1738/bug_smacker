@@ -11,6 +11,7 @@ class User < ApplicationRecord
   has_many :assigned_tickets, class_name: "Ticket", foreign_key: "assigned_dev_id", dependent: :nullify
   has_many :submitted_tickets, class_name: "Ticket", foreign_key: "submitted_by_id", dependent: :nullify 
   has_many :histories, dependent: :nullify, foreign_key: "changed_by_id"
+  has_many :comments, dependent: :destroy, foreign_key: "made_by_id"
 
   validates :name, presence: true, length: { maximum: 100 }
 end

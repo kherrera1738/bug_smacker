@@ -10,9 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_04_004054) do
+ActiveRecord::Schema.define(version: 2021_02_04_024641) do
 
-  create_table "histories", force: :cascade do |t| 
+  create_table "comments", force: :cascade do |t|
+    t.integer "ticket_id", null: false
+    t.integer "made_by_id", null: false
+    t.text "content"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["made_by_id"], name: "index_comments_on_made_by_id"
+    t.index ["ticket_id"], name: "index_comments_on_ticket_id"
+  end
+
+  create_table "histories", force: :cascade do |t|
     t.string "change_type"
     t.string "old_value"
     t.string "new_value"
@@ -91,6 +101,8 @@ ActiveRecord::Schema.define(version: 2021_02_04_004054) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "comments", "tickets"
+  add_foreign_key "comments", "users", column: "made_by_id"
   add_foreign_key "histories", "tickets"
   add_foreign_key "organizations", "users", column: "owner_id"
   add_foreign_key "positions", "organizations"
