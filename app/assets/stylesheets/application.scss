@@ -14,18 +14,51 @@
  *= require_self
  */
 
+$second-nav-color: #575f68be;
+$nav-btn-color: #484d528f;
+
+html {
+  height: 100%;
+}
+
+body {
+  background: rgb(0, 105, 128);
+  background: linear-gradient(
+    153deg,
+    rgb(7, 94, 114) 0%,
+    rgb(136, 197, 201) 100%
+  );
+  height: 100%;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+
 /* The sidebar menu */
 .sidebar {
   height: 100%; /* 100% Full-height */
   width: 0; /* 0 width - change this with JavaScript */
   position: fixed; /* Stay in place */
   z-index: 1; /* Stay on top */
-  top: 0;
   left: 0;
   background-color: #111; /* Black*/
   overflow-x: hidden; /* Disable horizontal scroll */
-  padding-top: 60px; /* Place content 60px from the top */
   transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
+  opacity: 0.75;
+}
+
+.nav-title {
+  color: white !important;
+  font-size: xx-large;
+}
+
+.bug-title {
+  background: -webkit-linear-gradient(
+    rgba(0, 105, 128, 1),
+    rgba(178, 253, 255, 1)
+  );
+  background-clip: border-box;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 /* The sidebar links */
@@ -36,6 +69,16 @@
   color: #818181;
   display: block;
   transition: 0.3s;
+}
+
+.second-nav {
+  background-color: $second-nav-color;
+}
+
+.nav-btn {
+  background-color: $nav-btn-color;
+  border-color: $nav-btn-color;
+  color: #f1f1f1 !important;
 }
 
 /* When you mouse over the navigation links, change their color */
@@ -62,10 +105,6 @@
   border: none;
 }
 
-.openbtn:hover {
-  background-color: #444;
-}
-
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
 #main {
   transition: margin-left 0.5s; /* If you want a transition effect */
@@ -80,4 +119,30 @@
   .sidebar a {
     font-size: 18px;
   }
+}
+
+// Styles for footer look and positioning
+
+.footer-link {
+  float: right;
+  color: white !important;
+  text-decoration: none;
+  font-size: larger;
+}
+
+#page-container {
+  position: relative;
+  min-height: 100vh;
+}
+
+#content-wrap {
+  padding-bottom: 2.5rem; /* Footer height */
+}
+
+#footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 3.5rem;
+  background-color: $second-nav-color;
 }

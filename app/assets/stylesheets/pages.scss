@@ -1,3 +1,17 @@
 // Place all the styles related to the Pages controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+
+$container-grey: rgba(43, 49, 59, 0.925);
+
+.sign-on {
+  background-color: $container-grey !important;
+  h1 {
+    font-weight: 200 !important;
+  }
+}
+
+.card {
+  background-color: $container-grey !important;
+  color: white;
+}

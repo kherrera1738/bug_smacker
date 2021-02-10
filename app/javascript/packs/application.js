@@ -12,22 +12,32 @@ Rails.start();
 Turbolinks.start();
 ActiveStorage.start();
 require("jquery");
-require("bootstrap");
 
 document.addEventListener("DOMContentLoaded", () => {
   function openNav() {
-    document.getElementById("mySidebar").style.width = "250px";
+    const sidebar = document.getElementById("mySidebar");
+    sidebar.dataset.open = "true";
+    sidebar.style.width = "250px";
     document.getElementById("main").style.marginLeft = "250px";
   }
 
   function closeNav() {
-    document.getElementById("mySidebar").style.width = "0";
+    const sidebar = document.getElementById("mySidebar");
+    sidebar.dataset.open = "false";
+    sidebar.style.width = "0";
     document.getElementById("main").style.marginLeft = "0";
   }
 
-  var openBtn = document.getElementById("openbtn");
-  openBtn.addEventListener("click", openNav, false);
+  function toggleNav() {
+    const sidebar = document.getElementById("mySidebar");
+    const isOpen = sidebar.dataset.open;
+    if (isOpen === "true") {
+      closeNav();
+    } else {
+      openNav();
+    }
+  }
 
-  var closeBtn = document.getElementById("closebtn");
-  closeBtn.addEventListener("click", closeNav, false);
+  var openBtn = document.getElementById("navbtn");
+  openBtn.addEventListener("click", toggleNav, false);
 });

@@ -1,2 +1,43 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<div class="jumbotron text-muted text-center sign-on pt-5">
+  <div class="container">
+    <h1 class="text-light">Welcome</h1>
+    <p class="lead">This is the home page for the rails issue tracker where you'll find tools for managing your software's tickets, bugs, and issues.</p>
+    <p class="lead">Sign up for an account or feel free to check out one of the trail accounts to preview the system. </p>
+    <button class="btn btn-primary"> <span class="fs-2">Sign up for an account</span> </button>
+    <button class="btn btn-dark"> <span class="fs-2">Use a trial account</span> </button>
+  </div>
+</div>
+<div class="container pt-5">
+  <div class="row">
+    <div class="col-md-4 mb-3 d-flex align-items-stretch">
+      <div class="card">
+        <%= image_tag "sample-thumbnail.svg" %>
+        <div class="card-body">
+          <h3 class="card-title my-3">Create Groups and Projects</h3>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <button href="#" class="btn btn-primary my-3 btn-lg">Check out admin account</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-3 d-flex align-items-stretch">
+      <div class="card">
+        <%= image_tag "sample-thumbnail.svg" %>
+        <div class="card-body">
+          <h3 class="card-title my-3">Real Time Data on Tickets</h3>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <button href="#" class="btn btn-primary my-3 btn-lg"> Take a look at dashboard </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-3 d-flex align-items-stretch">
+      <div class="card">
+        <%= image_tag "sample-thumbnail.svg" %>
+        <div class="card-body">
+          <h3 class="card-title my-3">Coordinate Easily with Team Members</h3>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <button href="#" class="btn btn-primary my-3 btn-lg"> Checkout ticket system </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
