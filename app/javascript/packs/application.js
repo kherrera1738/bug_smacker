@@ -13,7 +13,7 @@ Turbolinks.start();
 ActiveStorage.start();
 require("jquery");
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("turbolinks:load", () => {
   function openNav() {
     const sidebar = document.getElementById("mySidebar");
     sidebar.dataset.open = "true";
