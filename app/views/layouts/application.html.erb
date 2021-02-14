@@ -14,26 +14,19 @@
   <body>
     <div id="page-container">
       <div id="content-wrap">
-        <div class="bg-dark py-3">
-          <h1 class="nav-title pl-2"> <span class="bug-title" >Bug</span> Smacker</h1>
-        </div>
-        <div class="py-3 second-nav">
-          <button id="navbtn" class="btn nav-btn btn-lg fs-2">&#9776;</button>
-        </div>
-        <div id="mySidebar" class="sidebar" data-open="false">
-          <%= link_to 'Home', root_path %>
-          <%= link_to 'Sign In', new_user_session_path %>
-          <%= link_to 'Sign Up', new_user_registration_path %>
-        </div>
+        <%= render "layouts/shared/header" %>
+        <%= render "layouts/shared/navbar" %>
+
         <div id="main" class="px-0 py-0">
+          <% if flash[:notice] or flash[:alert] %>
+            <%= render "layouts/shared/notice" %>
+          <% end %>
           <%= yield %>
         </div>
       </div>
-      <footer id="footer" class="bg-dark pt-3">
-        <a href="#" class="footer-link mx-2">Home</a>
-        <a href="#" class="footer-link mx-2">About</a>
-        <a href="#" class="footer-link mx-2">Contact</a>
-      </footer>
+      
+      <%= render "layouts/shared/footer" %>
+
     </div>
   </body>
 </html>

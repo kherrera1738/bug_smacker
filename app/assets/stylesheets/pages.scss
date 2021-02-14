@@ -4,14 +4,18 @@
 
 $container-grey: rgba(43, 49, 59, 0.925);
 
-.sign-on {
+.card {
+  background-color: $container-grey !important;
+  color: white;
+}
+
+.home-jumbo {
   background-color: $container-grey !important;
   h1 {
     font-weight: 200 !important;
   }
 }
 
-.card {
+.session-form {
   background-color: $container-grey !important;
-  color: white;
 }
