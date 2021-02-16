@@ -17,7 +17,7 @@
         <%= render "layouts/shared/header" %>
         <%= render "layouts/shared/navbar" %>
 
-        <div id="main" class="px-0 py-0">
+        <div id="main" class="px-0 py-0" data-id=<%= current_user.id if user_signed_in? %>>
           <% if flash[:notice] or flash[:alert] %>
             <%= render "layouts/shared/notice" %>
           <% end %>

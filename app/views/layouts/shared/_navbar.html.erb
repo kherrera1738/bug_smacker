@@ -1,6 +1,7 @@
 <div id="mySidebar" class="sidebar" data-open="false">
   <%= link_to 'Home', root_path %>
   <% if user_signed_in? %>
+    <%= link_to 'My Content', user_dashboard_path(current_user.id) %>
     <%= link_to 'Organizations', organizations_path %>
     <%= link_to 'Projects', projects_path %>
     <%= link_to 'Sign Out', destroy_user_session_path, method: :delete %>

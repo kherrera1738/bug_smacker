@@ -44,7 +44,7 @@ organizations = Organization.order(:created_at).take(10)
   end
   organizations.each do |org| 
     description = "Sample project for #{org.name}"
-    project = org.projects.create!(name: "#{org.name}-proj-#{n}-", description: description)
+    project = org.projects.create!(name: "#{org.name}-proj-#{n}", description: description)
     if !org.positions.where(filled_by: user).exists?
       org.positions.create!(role: role, filled_by: user) 
       project.team_members.create!(user: user)
