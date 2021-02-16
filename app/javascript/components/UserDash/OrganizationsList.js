@@ -1,17 +1,18 @@
 import React from "react";
-import Organization from "./organization";
-import { useUserDashContext } from "./user_dash_context";
+import Organization from "./Organization";
+import { useUserDashContext } from "./UserDashContext";
 
 function OrganizationsList() {
   const { positions } = useUserDashContext();
 
   return (
-    <table className="table table-dark table-hover">
+    <table className="table table-dark table-hover fs-3">
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Role</th>
-          <th>Owned</th>
+          <th scope="col">Name</th>
+          <th scope="col">Role</th>
+          <th scope="col">Owned</th>
+          <th scope="col">View</th>
         </tr>
       </thead>
       <tbody>

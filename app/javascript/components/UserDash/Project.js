@@ -4,11 +4,11 @@ function Project({ project }) {
   const { name, organization, url } = project;
   return (
     <tr>
-      <td>
+      <td className="fs-4">
         <a href={url}>{name}</a>
       </td>
-      <td>{organization}</td>
-      <td>
+      <td className="fs-4">{organization}</td>
+      <td className="fs-4">
         <a href={url}>View Project</a>
       </td>
     </tr>

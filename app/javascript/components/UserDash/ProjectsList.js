@@ -1,16 +1,16 @@
 import React from "react";
-import Project from "./project";
-import { useUserDashContext } from "./user_dash_context";
+import Project from "./Project";
+import { useUserDashContext } from "./UserDashContext";
 
 function ProjectsList() {
   const { projects } = useUserDashContext();
   return (
-    <table className="table table-dark table-hover">
+    <table className="table table-hover table-dark fs-3">
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Organization</th>
-          <th>Visit</th>
+          <th scope="col">Name</th>
+          <th scope="col">Organization</th>
+          <th scope="col">View</th>
         </tr>
       </thead>
       <tbody>

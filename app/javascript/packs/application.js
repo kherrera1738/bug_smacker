@@ -18,14 +18,14 @@ document.addEventListener("turbolinks:load", () => {
     const sidebar = document.getElementById("mySidebar");
     sidebar.dataset.open = "true";
     sidebar.style.width = "250px";
-    document.getElementById("main").style.marginLeft = "250px";
+    // document.getElementById("main").style.marginLeft = "250px";
   }
 
   function closeNav() {
     const sidebar = document.getElementById("mySidebar");
     sidebar.dataset.open = "false";
     sidebar.style.width = "0";
-    document.getElementById("main").style.marginLeft = "0";
+    // document.getElementById("main").style.marginLeft = "0";
   }
 
   function toggleNav() {
@@ -41,3 +41,7 @@ document.addEventListener("turbolinks:load", () => {
   var openBtn = document.getElementById("navbtn");
   openBtn.addEventListener("click", toggleNav, false);
 });
+// Support component names relative to this directory:
+var componentRequireContext = require.context("components", true);
+var ReactRailsUJS = require("react_ujs");
+ReactRailsUJS.useContext(componentRequireContext);
