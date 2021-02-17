@@ -8,7 +8,7 @@ class UserSerializer < ActiveModel::Serializer
       positions.push({
         role: position.role,
         organization: position.organization.name,
-        url: organization_path(position.organization.id),
+        url: organization_dashboard_path(position.organization.id),
         owned: (position.organization.owner == object)
       })
     end
