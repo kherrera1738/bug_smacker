@@ -6,7 +6,6 @@ function Assigned() {
   const { assigned } = useOrganizationDashContext();
   const chartContainer = React.createRef();
   const [chartInstance, setChartInstance] = useState(null);
-  const fontColor = "white";
 
   const config = {
     type: "doughnut",

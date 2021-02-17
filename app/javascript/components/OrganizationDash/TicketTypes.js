@@ -34,6 +34,8 @@ function TicketTypes() {
 
   useEffect(() => {
     if (chartContainer && chartContainer.current) {
+      Chart.defaults.global.defaultFontColor = "white";
+      Chart.defaults.global.defaultFontSize = 15;
       const newChartInstance = new Chart(chartContainer.current, config);
       setChartInstance(newChartInstance);
     }

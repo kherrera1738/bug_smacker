@@ -28,6 +28,17 @@ function Priorities() {
         },
       ],
     },
+    options: {
+      scales: {
+        yAxes: [
+          {
+            ticks: {
+              stepSize: 1,
+            },
+          },
+        ],
+      },
+    },
   };
 
   useEffect(() => {

@@ -14,7 +14,7 @@ function Statuses() {
       labels: statuses.labels,
       datasets: [
         {
-          label: "statuses",
+          label: "Status",
           backgroundColor: [
             "rgba(255, 99, 132)",
             "rgba(57, 134, 228)",
@@ -32,6 +32,17 @@ function Statuses() {
           data: statuses.data,
         },
       ],
+    },
+    options: {
+      scales: {
+        yAxes: [
+          {
+            ticks: {
+              stepSize: 1,
+            },
+          },
+        ],
+      },
     },
   };
 
