@@ -1,15 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import ProjectDash from "./ProjectDashContainer";
 import { AppProvider } from "../AppContext";
-import { ProjectDashProvider } from "./ProjectDashContext";
 
-function ProjectDashboard({ uid }) {
+function ProjectDashboard({ uid, pID, projName }) {
   return (
     <React.StrictMode>
       <AppProvider uid={uid}>
-        <ProjectDashProvider>
-          <ProjectDash />
-        </ProjectDashProvider>
+        <ProjectDash pID={pid} projName={projName} />
       </AppProvider>
     </React.StrictMode>
   );

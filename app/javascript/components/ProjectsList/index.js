@@ -1,9 +1,7 @@
 import React from "react";
 import Project from "./Project";
-import { useUserDashContext } from "./UserDashContext";
 
-function ProjectsList() {
-  const { projects } = useUserDashContext();
+function ProjectsList({ projects }) {
   return (
     <table className="table table-hover table-dark fs-3">
       <thead>

@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Loading from "../Loading";
-import OrganizationsList from "./OrganizationsList";
-import ProjectsList from "./ProjectsList";
-import { useUserDashContext } from "./UserDashContext";
+import OrganizationsList from "../OrganizationsList";
+import ProjectsList from "../ProjectsList";
 import { useGlobalContext } from "../AppContext";
 
 function UserDash() {
   const [isLoading, setIsLoading] = useState(true);
   const { uid } = useGlobalContext();
-  const { setPositions, setProjects } = useUserDashContext();
+  const [projects, setProjects] = useState([]);
+  const [positions, setPositions] = useState([]);
 
   function userContentUrl(uid) {
     return `/dashboard/${uid}/main_content`;
@@ -39,8 +39,8 @@ function UserDash() {
         <Loading />
       ) : (
         <div>
-          <OrganizationsList />
-          <ProjectsList />
+          <OrganizationsList positions={positions} />
+          <ProjectsList projects={projects} />
         </div>
       )}
     </div>

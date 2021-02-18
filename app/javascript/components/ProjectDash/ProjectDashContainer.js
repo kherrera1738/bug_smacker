@@ -1,48 +1,33 @@
 import React, { useState, useEffect } from "react";
 import Loading from "../Loading";
-// import Priorities from "./Priorities";
-// import TicketTypes from "./TicketTypes";
-// import Statuses from "./Statuses";
-// import Assigned from "./Assigned";
-// import ProjectsList from "./ProjectsList";
-// import { useProjectDashContext } from "./ProjectDashContext";
 
-function ProjectDash() {
+function ProjectDash({ projID, projName }) {
   const [isLoading, setIsLoading] = useState(true);
+  const [tickets, setTickets] = useState([]);
+  const [projInfo, setProjInfo] = useState(null);
 
-  // const {
-  //   setPriorities,
-  //   setStatuses,
-  //   setTicketTypes,
-  //   setAssigned,
-  //   setProjects,
-  // } = useProjectDashContext();
+  function orgContentUrl(prijID) {
+    return `/projects/${projID}.json`;
+  }
 
-  // function orgContentUrl(orgID) {
-  //   return `/organizations/${orgID}.json`;
-  // }
+  async function fetchProjContent() {
+    setIsLoading(true);
+    try {
+      const response = await fetch(orgContentUrl(orgID));
+      const { info, tickets } = await response.json();
+      console.log(info);
+      console.log(tickets);
+      setProjInfo(info);
+      setTickets(tickets);
+    } catch (error) {
+      console.log(error);
+    }
+    setIsLoading(false);
+  }
 
-  // async function fetchOrgContent() {
-  //   setIsLoading(true);
-  //   try {
-  //     const response = await fetch(orgContentUrl(orgID));
-  //     const { orgInfo, projects } = await response.json();
-  //     console.log(orgInfo);
-  //     console.log(projects);
-  //     setPriorities(orgInfo.priorities);
-  //     setAssigned(orgInfo.assigned);
-  //     setStatuses(orgInfo.statuses);
-  //     setTicketTypes(orgInfo.types);
-  //     setProjects(projects);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  //   setIsLoading(false);
-  // }
-
-  // useEffect(() => {
-  //   fetchOrgContent();
-  // }, []);
+  useEffect(() => {
+    fetchProjContent();
+  }, []);
 
   return (
     <>

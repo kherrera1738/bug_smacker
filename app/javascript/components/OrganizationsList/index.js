@@ -1,10 +1,7 @@
 import React from "react";
 import Organization from "./Organization";
-import { useUserDashContext } from "./UserDashContext";
 
-function OrganizationsList() {
-  const { positions } = useUserDashContext();
-
+function OrganizationsList({ positions }) {
   return (
     <table className="table table-dark table-hover fs-3">
       <thead>

@@ -1,43 +1,36 @@
 import React, { useEffect, useState } from "react";
 import Chart from "chart.js";
-import { useOrganizationDashContext } from "./OrganizationDashContext";
 
-function Priorities() {
-  const { priorities } = useOrganizationDashContext();
+function DataGraph({ dataset, graphType, title, card_label }) {
   const chartContainer = React.createRef();
   const [chartInstance, setChartInstance] = useState(null);
 
+  const { labels, data } = dataset;
+
   const config = {
-    type: "bar",
+    type: graphType,
     data: {
-      labels: priorities.labels,
+      labels: labels,
       datasets: [
         {
-          label: "Priorities",
+          label: title,
           backgroundColor: [
-            "rgba(255, 99, 132)",
-            "rgba(57, 134, 228)",
-            "rgba(17, 176, 25)",
+            "rgba(255, 99, 132, 1)",
+            "rgba(57, 134, 228, 1)",
+            "rgba(17, 176, 25, 1)",
+            "rgba(123, 29, 245)",
+            "rgba(235, 221, 25)",
           ],
           borderColor: [
             "rgba(255, 99, 132, 1)",
             "rgba(57, 134, 228, 1)",
             "rgba(17, 176, 25, 1)",
+            "rgba(123, 29, 245)",
+            "rgba(235, 221, 25)",
           ],
-          data: priorities.data,
+          data: data,
         },
       ],
-    },
-    options: {
-      scales: {
-        yAxes: [
-          {
-            ticks: {
-              stepSize: 1,
-            },
-          },
-        ],
-      },
     },
   };
 
@@ -51,11 +44,11 @@ function Priorities() {
   return (
     <div className="card">
       <div className="card-body">
-        <div className="card-title fs-2">Ticket by Priorities</div>
+        <div className="card-title fs-2">{card_label}</div>
         <canvas ref={chartContainer} />
       </div>
     </div>
   );
 }
 
-export default Priorities;
+export default DataGraph;
