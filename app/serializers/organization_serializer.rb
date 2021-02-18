@@ -1,6 +1,7 @@
 class OrganizationSerializer < ActiveModel::Serializer
   include Rails.application.routes.url_helpers
   attributes :orgInfo
+  attributes :projects
 
   def orgInfo
     priorities = {
@@ -37,6 +38,18 @@ class OrganizationSerializer < ActiveModel::Serializer
       statuses: convert_to_chart_format(status),
       priorities: convert_to_chart_format(priorities)
     }
+  end
+
+  def projects
+    projects = []
+    object.projects.each do |project|
+      projects.push({
+        name: project.name,
+        organization: project.organization.name,
+        url: project_path(project.id)
+      })
+    end
+    return projects
   end
 
   def convert_to_chart_format(data)

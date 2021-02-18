@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react";
 
-const OrganizationDashContext = React.createContext();
+const ProjectDashContext = React.createContext();
 
-const OrganizationDashProvider = ({ children, orgID, orgName }) => {
+const ProjectDashProvider = ({ children }) => {
   const [priorities, setPriorities] = useState([]);
   const [statuses, setStatuses] = useState([]);
   const [ticketTypes, setTicketTypes] = useState([]);
@@ -10,10 +10,8 @@ const OrganizationDashProvider = ({ children, orgID, orgName }) => {
   const [projects, setProjects] = useState([]);
 
   return (
-    <OrganizationDashContext.Provider
+    <ProjectDashContext.Provider
       value={{
-        orgID,
-        orgName,
         priorities,
         setPriorities,
         statuses,
@@ -27,12 +25,12 @@ const OrganizationDashProvider = ({ children, orgID, orgName }) => {
       }}
     >
       {children}
-    </OrganizationDashContext.Provider>
+    </ProjectDashContext.Provider>
   );
 };
 
-export function useOrganizationDashContext() {
-  return useContext(OrganizationDashContext);
+export function useProjectDashContext() {
+  return useContext(ProjectDashContext);
 }
 
-export { OrganizationDashContext, OrganizationDashProvider };
+export { ProjectDashContext, ProjectDashProvider };
