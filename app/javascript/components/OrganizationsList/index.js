@@ -14,7 +14,7 @@ function OrganizationsList({ positions }) {
       </thead>
       <tbody>
         {positions.map((position, index) => {
-          return <Organization position={position} key={index} />;
+          return <Organization {...position} key={index} />;
         })}
       </tbody>
     </table>

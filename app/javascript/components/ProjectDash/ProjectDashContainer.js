@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from "react";
 import Loading from "../Loading";
+import StatsDashboard from "../StatsDashboard";
+import TicketsList from "../TicketsList";
 
-function ProjectDash({ projID, projName }) {
+function ProjectDash({ pID, projName }) {
   const [isLoading, setIsLoading] = useState(true);
   const [tickets, setTickets] = useState([]);
   const [projInfo, setProjInfo] = useState(null);
 
-  function orgContentUrl(prijID) {
-    return `/projects/${projID}.json`;
+  function orgContentUrl(pID) {
+    return `/projects/${pID}.json`;
   }
 
   async function fetchProjContent() {
     setIsLoading(true);
     try {
-      const response = await fetch(orgContentUrl(orgID));
+      const response = await fetch(orgContentUrl(pID));
       const { info, tickets } = await response.json();
       console.log(info);
       console.log(tickets);
@@ -32,39 +34,24 @@ function ProjectDash({ projID, projName }) {
   return (
     <>
       <div className="container text-white">
-        <h1 className="title">ProjectName</h1>
+        <h1 className="title">{projName}</h1>
         <hr />
       </div>
-      {/* {isLoading ? (
+      {isLoading ? (
         <Loading />
       ) : (
         <>
           <div className="">
-            <div className="row justify-content-center">
-              <div className="col-12 col-lg-6 col-xl-5 col-xxl-4 mb-4">
-                <Priorities />
-              </div>
-              <div className="col-12 col-lg-6 col-xl-5 col-xxl-4 mb-4">
-                <TicketTypes />
-              </div>
-            </div>
-            <div className="row justify-content-center">
-              <div className="col-12 col-lg-6 col-xl-5 col-xxl-4 mb-4">
-                <Statuses />
-              </div>
-              <div className="col-12 col-lg-6 col-xl-5 col-xxl-4 mb-4">
-                <Assigned />
-              </div>
-            </div>
+            <StatsDashboard {...projInfo} />
             <div className="row justify-content-center">
               <div className="text-white col-12 col-xl-10 col-xxl-8 mb-4">
-                <ProjectsList />
+                <TicketsList tickets={tickets} />
               </div>
             </div>
           </div>
         </>
-      )} */}
-      <Loading />
+      )}
+      {/* <Loading /> */}
     </>
   );
 }

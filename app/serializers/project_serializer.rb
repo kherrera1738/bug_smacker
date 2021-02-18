@@ -44,7 +44,7 @@ class ProjectSerializer < ActiveModel::Serializer
         title: ticket.title,
         priority: ticket.priority,
         status: ticket.status,
-        type: ticket.type
+        type: ticket.ticket_type,
         url: ticket_path(ticket.id)
       })
     end

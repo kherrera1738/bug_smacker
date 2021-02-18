@@ -1,6 +1,6 @@
 class ProjectsController < ApplicationController
   before_action :set_project, only: [ :show, :edit, :update, :destroy ]
-  before_action :authenticate_user!, only: [ :show, :edit, :update, :destroy ]
+  before_action :authenticate_user!, only: [ :edit, :update, :destroy ]
   before_action :is_part_of_organization?, only: [ :show, :edit, :update, :destroy ]
 
   # GET /projects or /projects.json
@@ -10,6 +10,10 @@ class ProjectsController < ApplicationController
 
   # GET /projects/1 or /projects/1.json
   def show
+    respond_to do |format|
+      format.html
+      format.json { render json: @project}
+    end
   end
 
   # GET /projects/new

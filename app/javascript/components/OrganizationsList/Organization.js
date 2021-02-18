@@ -1,7 +1,6 @@
 import React from "react";
 
-function Organization({ position }) {
-  const { role, organization, url, owned } = position;
+function Organization({ role, organization, url, owned }) {
   return (
     <tr>
       <td className="fs-4">

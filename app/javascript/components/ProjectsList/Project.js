@@ -1,7 +1,6 @@
 import React from "react";
 
-function Project({ project }) {
-  const { name, organization, url } = project;
+function Project({ name, organization, url }) {
   return (
     <tr>
       <td className="fs-4">

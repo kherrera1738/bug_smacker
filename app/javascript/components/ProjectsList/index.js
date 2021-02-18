@@ -13,7 +13,7 @@ function ProjectsList({ projects }) {
       </thead>
       <tbody>
         {projects.map((project, index) => {
-          return <Project project={project} key={index} />;
+          return <Project {...project} key={index} />;
         })}
       </tbody>
     </table>

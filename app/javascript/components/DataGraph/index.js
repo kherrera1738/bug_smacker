@@ -37,6 +37,8 @@ function DataGraph({ dataset, graphType, title, card_label }) {
   useEffect(() => {
     if (chartContainer && chartContainer.current) {
       const newChartInstance = new Chart(chartContainer.current, config);
+      Chart.defaults.global.defaultFontColor = "white";
+      Chart.defaults.global.defaultFontSize = 15;
       setChartInstance(newChartInstance);
     }
   }, []);

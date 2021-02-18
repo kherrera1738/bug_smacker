@@ -45,7 +45,7 @@ class OrganizationSerializer < ActiveModel::Serializer
       projects.push({
         name: project.name,
         organization: project.organization.name,
-        url: project_path(project.id)
+        url: project_dashboard_path(project.id)
       })
     end
     return projects
