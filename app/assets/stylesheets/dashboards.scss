@@ -22,3 +22,23 @@ a:visited {
   background-color: transparent !important;
   color: white !important;
 }
+
+.ticket-card {
+  h1 {
+    background-color: #353535;
+  }
+
+  tr {
+    background-color: transparent !important;
+  }
+}
+
+.ticket-card-body {
+  background-color: #3f3f3fc9 !important;
+}
+
+// Icon style
+
+.arrow {
+  background-color: #3f3f3fc9 !important;
+}

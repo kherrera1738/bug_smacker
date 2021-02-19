@@ -17,6 +17,10 @@ class DashboardsController < ApplicationController
     @project = Project.find_by(id: params[:proj_id])
   end
 
+  def ticket_dashboard
+    @ticket = Ticket.find_by(id: params[:id])
+  end
+
   private
     def set_user
       @user = User.find_by(id: params[:id])
