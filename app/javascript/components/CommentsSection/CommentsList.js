@@ -1,11 +1,36 @@
 import React from "react";
 import Comment from "./Comment";
-import { BsChevronCompactLeft, BsChevronCompactRight } from "react-icons/bs";
+import Footer from "../Footer";
 
-function CommentsList({ comments, pageIndex, increment, decrement, maxPage }) {
+function CommentsList({
+  comments,
+  pageIndex,
+  increment,
+  decrement,
+  maxPage,
+  searchTerm,
+  setSearchTerm,
+}) {
   return (
     <div className="ticket-card mt-3 mb-0">
       <h1 className="px-3 py-3 my-0">Ticket Comments</h1>
+      <div className="container-fluid search">
+        <form>
+          <div className="row justify-content-end align-items-center">
+            <label className="col-2 col-form-label text-end fs-3">
+              Search:
+            </label>
+            <div className="col-5 col-lg-3">
+              <input
+                type="text"
+                className="form-control fs-4 my-1"
+                placeholder={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+          </div>
+        </form>
+      </div>
       <div className="ticket-card-body">
         <table className="table table-hover fs-3 mb-0">
           <thead>
@@ -21,30 +46,12 @@ function CommentsList({ comments, pageIndex, increment, decrement, maxPage }) {
             })}
           </tbody>
         </table>
-        <div className="row justify-content-center">
-          <div className="col-6 py-4">
-            <div className="container">
-              <div className="row justify-content-start">
-                <p>
-                  Showing page {pageIndex + 1} out of {maxPage}
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="col-6 py-4 ">
-            <div className="container">
-              <div className="row justify-content-end fs-3">
-                <div className="col-2">
-                  <BsChevronCompactLeft onClick={decrement} />
-                </div>
-                <div className="col-1 text-center mx-3">{pageIndex + 1}</div>
-                <div className="col-3 text-center">
-                  <BsChevronCompactRight onClick={increment} />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <Footer
+          increment={increment}
+          decrement={decrement}
+          pageIndex={pageIndex}
+          maxPage={maxPage}
+        />
       </div>
     </div>
   );

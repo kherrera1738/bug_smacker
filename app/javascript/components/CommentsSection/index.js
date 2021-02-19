@@ -3,17 +3,15 @@ import CommentsList from "./CommentsList";
 
 function CommentsSection({ comments }) {
   const [pageIndex, setPageIndex] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
   const pageSize = 3;
-  const maxPage = Math.ceil(comments.length / pageSize);
+  var maxPage = Math.ceil(comments.length / pageSize);
 
   function increment() {
     let newIndex = pageIndex;
     if (Math.ceil(comments.length / pageSize) > pageIndex + 1) {
       newIndex += 1;
     }
-    console.log(Math.ceil(comments.length / pageSize));
-    console.log(pageIndex);
-    console.log(newIndex);
     setPageIndex(newIndex);
   }
 
@@ -22,13 +20,28 @@ function CommentsSection({ comments }) {
     if (0 < pageIndex) {
       newIndex -= 1;
     }
-    console.log(pageIndex);
-    console.log(newIndex);
     setPageIndex(newIndex);
   }
 
+  function matchesSearchTerm(comment) {
+    let lcSearchTerm = searchTerm.toLowerCase();
+    return (
+      comment.madeBy.toLowerCase().includes(lcSearchTerm) ||
+      comment.createdAt.toLowerCase().includes(lcSearchTerm) ||
+      comment.content.toLowerCase().includes(lcSearchTerm)
+    );
+  }
+
   function getComments() {
-    return comments.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize);
+    let subsetComments = comments;
+    if (searchTerm) {
+      subsetComments = comments.filter(matchesSearchTerm);
+    }
+    maxPage = Math.ceil(subsetComments.length / pageSize);
+    return subsetComments.slice(
+      pageIndex * pageSize,
+      (pageIndex + 1) * pageSize
+    );
   }
 
   return (
@@ -59,6 +72,8 @@ function CommentsSection({ comments }) {
         maxPage={maxPage}
         increment={increment}
         decrement={decrement}
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
       />
     </>
   );

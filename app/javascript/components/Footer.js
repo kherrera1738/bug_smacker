@@ -1,0 +1,33 @@
+import React from "react";
+import { BsChevronCompactLeft, BsChevronCompactRight } from "react-icons/bs";
+
+function Footer({ decrement, increment, pageIndex, maxPage }) {
+  return (
+    <div className="row justify-content-center">
+      <div className="col-6 py-4">
+        <div className="container">
+          <div className="row justify-content-start">
+            <p>
+              Showing page {pageIndex + 1} out of {maxPage}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div className="col-6 py-4 ">
+        <div className="container">
+          <div className="row justify-content-end fs-3">
+            <div className="col-2">
+              <BsChevronCompactLeft onClick={decrement} />
+            </div>
+            <div className="col-1 text-center mx-3">{pageIndex + 1}</div>
+            <div className="col-3 text-center">
+              <BsChevronCompactRight onClick={increment} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default Footer;
