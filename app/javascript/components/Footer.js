@@ -1,14 +1,14 @@
 import React from "react";
 import { BsChevronCompactLeft, BsChevronCompactRight } from "react-icons/bs";
 
-function Footer({ decrement, increment, pageIndex, maxPage }) {
+function Footer({ state, dispatch }) {
   return (
     <div className="row justify-content-center">
       <div className="col-6 py-4">
         <div className="container">
           <div className="row justify-content-start">
             <p>
-              Showing page {pageIndex + 1} out of {maxPage}
+              Showing page {state.pageIndex + 1} out of {state.maxPage}
             </p>
           </div>
         </div>
@@ -17,11 +17,15 @@ function Footer({ decrement, increment, pageIndex, maxPage }) {
         <div className="container">
           <div className="row justify-content-end fs-3">
             <div className="col-2">
-              <BsChevronCompactLeft onClick={decrement} />
+              <BsChevronCompactLeft
+                onClick={() => dispatch({ type: "decrement" })}
+              />
             </div>
-            <div className="col-1 text-center mx-3">{pageIndex + 1}</div>
+            <div className="col-1 text-center mx-3">{state.pageIndex + 1}</div>
             <div className="col-3 text-center">
-              <BsChevronCompactRight onClick={increment} />
+              <BsChevronCompactRight
+                onClick={() => dispatch({ type: "increment" })}
+              />
             </div>
           </div>
         </div>

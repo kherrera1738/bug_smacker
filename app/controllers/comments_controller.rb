@@ -2,6 +2,7 @@ class CommentsController < ApplicationController
   before_action :set_comment, only: [ :show, :edit, :update, :destroy ]
   before_action :authenticate_user!, only: [ :index, new, :show, :edit, :update, :destroy ]
   before_action :is_organization_member?, only: [ :show, :edit, :update, :destroy ]
+  skip_before_action :verify_authenticity_token, only: [ :create ] 
 
   # GET /comments or /comments.json
   def index
@@ -28,12 +29,13 @@ class CommentsController < ApplicationController
     respond_to do |format|
       if is_team_member? and @comment.save
         format.html { redirect_to @comment, notice: "Comment was successfully created." }
-        format.json { render :show, status: :created, location: @comment }
+        format.json { render json: @comment }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @comment.errors, status: :unprocessable_entity }
       end
     end
+    # render json: @comment 
   end
 
   # PATCH/PUT /comments/1 or /comments/1.json

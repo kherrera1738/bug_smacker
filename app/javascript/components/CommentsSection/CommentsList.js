@@ -2,15 +2,19 @@ import React from "react";
 import Comment from "./Comment";
 import Footer from "../Footer";
 
-function CommentsList({
-  comments,
-  pageIndex,
-  increment,
-  decrement,
-  maxPage,
-  searchTerm,
-  setSearchTerm,
-}) {
+function CommentsList({ comments, state, dispatch }) {
+  function changeSort(e, newTerm) {
+    e.preventDefault();
+    dispatch({ type: "changeSort", payload: newTerm });
+  }
+
+  function getSortArrowClass(propName) {
+    if (propName === state.sortTerm) {
+      return state.order === "asc" ? "asc" : "desc";
+    }
+    return "";
+  }
+
   return (
     <div className="ticket-card mt-3 mb-0">
       <h1 className="px-3 py-3 my-0">Ticket Comments</h1>
@@ -24,8 +28,10 @@ function CommentsList({
               <input
                 type="text"
                 className="form-control fs-4 my-1"
-                placeholder={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder={state.searchTerm}
+                onChange={(e) =>
+                  dispatch({ type: "setSearchTerm", payload: e.target.value })
+                }
               />
             </div>
           </div>
@@ -35,9 +41,33 @@ function CommentsList({
         <table className="table table-hover fs-3 mb-0">
           <thead>
             <tr>
-              <th scope="col">Commenter</th>
-              <th scope="col">Message</th>
-              <th scope="col">Created</th>
+              <th scope="col">
+                <a
+                  href=""
+                  className={`sort-by ${getSortArrowClass("madeBy")}`}
+                  onClick={(e) => changeSort(e, "madeBy")}
+                >
+                  Commenter
+                </a>
+              </th>
+              <th scope="col">
+                <a
+                  href=""
+                  className={`sort-by ${getSortArrowClass("content")}`}
+                  onClick={(e) => changeSort(e, "content")}
+                >
+                  Message
+                </a>
+              </th>
+              <th scope="col">
+                <a
+                  href=""
+                  className={`sort-by ${getSortArrowClass("createdAt")}`}
+                  onClick={(e) => changeSort(e, "createdAt")}
+                >
+                  Created
+                </a>
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -46,12 +76,7 @@ function CommentsList({
             })}
           </tbody>
         </table>
-        <Footer
-          increment={increment}
-          decrement={decrement}
-          pageIndex={pageIndex}
-          maxPage={maxPage}
-        />
+        <Footer state={state} dispatch={dispatch} />
       </div>
     </div>
   );
