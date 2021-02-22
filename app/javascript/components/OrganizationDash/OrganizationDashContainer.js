@@ -34,6 +34,7 @@ function OrganizationDash({ orgID, orgName }) {
       <div className="container text-white">
         <h1 className="title">{orgName}</h1>
         <hr />
+        <a href="">Manage User Roles</a>
       </div>
       {isLoading ? (
         <Loading />
