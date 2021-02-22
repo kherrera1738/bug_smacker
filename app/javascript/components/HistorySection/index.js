@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useEffect } from "react";
+import React, { useReducer, useEffect } from "react";
 import History from "./History";
 import Footer from "../Footer";
 
@@ -55,46 +55,14 @@ function reducer(state, action) {
 
 function HistorySection({ histories }) {
   const [state, dispatch] = useReducer(reducer, initalState);
-
-  const [pageIndex, setPageIndex] = useState(0);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [order, setOrder] = useState("desc");
-  const [sortTerm, setSortTerm] = useState("changeDate");
-  // const pageSize = 4;
-  // var maxPage = Math.ceil(histories.length / pageSize);
-
   useEffect(() => {
     dispatch({ type: "setup", payload: histories });
   }, []);
 
   function changeSort(e, newTerm) {
     e.preventDefault();
-    // let newOrder = "";
-    // if (newTerm !== sortTerm || order === "desc") {
-    //   newOrder = "asc";
-    // } else {
-    //   newOrder = "desc";
-    // }
-    // setSortTerm(newTerm);
-    // setOrder(newOrder);
     dispatch({ type: "changeSort", payload: newTerm });
   }
-
-  // function increment() {
-  //   let newIndex = pageIndex;
-  //   if (maxPage > pageIndex + 1) {
-  //     newIndex += 1;
-  //   }
-  //   setPageIndex(newIndex);
-  // }
-
-  // function decrement() {
-  //   let newIndex = pageIndex;
-  //   if (0 < pageIndex) {
-  //     newIndex -= 1;
-  //   }
-  //   setPageIndex(newIndex);
-  // }
 
   function matchesSearchTerm(history) {
     let lcSearchTerm = state.searchTerm.toLowerCase();
@@ -211,14 +179,7 @@ function HistorySection({ histories }) {
             })}
           </tbody>
         </table>
-        <Footer
-          // increment={increment}
-          // decrement={decrement}
-          // pageIndex={pageIndex}
-          // maxPage={maxPage}
-          state={state}
-          dispatch={dispatch}
-        />
+        <Footer state={state} dispatch={dispatch} />
       </div>
     </div>
   );

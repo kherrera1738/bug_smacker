@@ -17,8 +17,6 @@ function ProjectDash({ pID, projName }) {
     try {
       const response = await fetch(orgContentUrl(pID));
       const { info, tickets } = await response.json();
-      console.log(info);
-      console.log(tickets);
       setProjInfo(info);
       setTickets(tickets);
     } catch (error) {

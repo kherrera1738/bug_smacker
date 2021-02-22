@@ -6,6 +6,6 @@ class CommentSerializer < ActiveModel::Serializer
   end
 
   def createdAt
-    object.created_at
+    object.created_at.strftime("%b-%d-%Y, %I:%M %p")
   end
 end

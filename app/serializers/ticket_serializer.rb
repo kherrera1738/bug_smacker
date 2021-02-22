@@ -18,7 +18,7 @@ class TicketSerializer < ActiveModel::Serializer
       comments.push({
         content: comment.content,
         madeBy: comment.made_by.name,
-        createdAt: comment.created_at,
+        createdAt: comment.created_at.strftime("%b-%d-%Y, %I:%M %p")
       })
     end
     return comments
@@ -31,9 +31,17 @@ class TicketSerializer < ActiveModel::Serializer
         changeType: history.change_type,
         oldVal: history.old_value,
         newVal: history.new_value,
-        changeDate: history.created_at
+        changeDate: history.created_at.strftime("%b-%d-%Y, %I:%M %p")
       })
     end
     return histories
+  end
+
+  def created_at
+    object.created_at.strftime("%b-%d-%Y, %I:%M %p")
+  end
+
+  def updated_at
+    object.created_at.strftime("%b-%d-%Y, %I:%M %p")
   end
 end

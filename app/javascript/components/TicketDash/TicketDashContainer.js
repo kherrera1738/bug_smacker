@@ -17,7 +17,6 @@ function TicketDash({ tid, ticketTitle }) {
     try {
       const response = await fetch(ticketContentUrl(tid));
       const data = await response.json();
-      console.log(data);
       setTicketInfo(data);
     } catch (error) {
       console.log(error);
