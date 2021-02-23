@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Loading from "../Loading";
-import StatsDashboard from "../StatsDashboard";
+// import StatsDashboard from "../StatsDashboard";
+import DataGraph from "../DataGraph";
 import TicketsList from "../TicketsList";
 
 function ProjectDash({ pID, projName }) {
   const [isLoading, setIsLoading] = useState(true);
   const [tickets, setTickets] = useState([]);
-  const [projInfo, setProjInfo] = useState(null);
+  const [teamMembers, setTeamMembers] = useState(null);
+  const [description, setDescription] = useState("");
 
   function orgContentUrl(pID) {
     return `/projects/${pID}.json`;
@@ -16,9 +18,11 @@ function ProjectDash({ pID, projName }) {
     setIsLoading(true);
     try {
       const response = await fetch(orgContentUrl(pID));
-      const { info, tickets } = await response.json();
-      setProjInfo(info);
+      const { tickets, description, teamMembers } = await response.json();
+      console.log(teamMembers);
+      setTeamMembers(teamMembers);
       setTickets(tickets);
+      setDescription(description);
     } catch (error) {
       console.log(error);
     }
@@ -39,17 +43,50 @@ function ProjectDash({ pID, projName }) {
         <Loading />
       ) : (
         <>
+          <div className="container-fluid">
+            <div className="row text-white justify-content-center">
+              <div className="col-12 col-xl-10 col-xxl-8 mb-4">
+                <div className="ticket-card">
+                  <div className="px-4 py-3 ticket-card-body">
+                    <h3>Ticket Description</h3>
+                    <hr />
+                    <p className="fs-4 px-1 py-2">{description}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           <div className="">
-            <StatsDashboard {...projInfo} />
             <div className="row justify-content-center">
-              <div className="text-white col-12 col-xl-10 col-xxl-8 mb-4">
+              <div className="col-12 col-lg-7 col-xl-7 col-xxl-5 mb-4">
                 <TicketsList tickets={tickets} />
+              </div>
+              <div className="col-12 col-lg-4 col-xl-3 col-xxl-3 mb-4">
+                <table className="table table-hover table-dark fs-3">
+                  <thead>
+                    <tr>
+                      <th scope="col">Name</th>
+                      <th scope="col">Email</th>
+                      <th scope="col">Role</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {teamMembers.map((member, index) => {
+                      return (
+                        <tr key={index}>
+                          <td className="fs-4">{member.name}</td>
+                          <td className="fs-4">{member.email}</td>
+                          <td className="fs-4">{member.role}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
         </>
       )}
-      {/* <Loading /> */}
     </>
   );
 }
