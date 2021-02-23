@@ -1,5 +1,9 @@
 class RegistrationsController < Devise::RegistrationsController
 
+  def index
+    render json: User.all
+  end
+
   private
     def sign_in_params
       params.require(:user).permit(:name, :email, :password, :password_confirmation)

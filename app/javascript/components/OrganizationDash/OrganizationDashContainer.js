@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import Loading from "../Loading";
 import StatsDashboard from "../StatsDashboard";
 import ProjectsList from "../ProjectsList";
+import { AiOutlineUsergroupAdd } from "react-icons/ai";
 
 function OrganizationDash({ orgID, orgName }) {
   const [isLoading, setIsLoading] = useState(true);
   const [projects, setProjects] = useState([]);
   const [orgInfo, setOrgInfo] = useState(null);
+  const [rolesUrl, setRolesUrl] = useState("");
 
   function orgContentUrl(orgID) {
     return `/organizations/${orgID}.json`;
@@ -16,9 +18,10 @@ function OrganizationDash({ orgID, orgName }) {
     setIsLoading(true);
     try {
       const response = await fetch(orgContentUrl(orgID));
-      const { info, projects } = await response.json();
+      const { info, projects, manageRolesUrl } = await response.json();
       setOrgInfo(info);
       setProjects(projects);
+      setRolesUrl(manageRolesUrl);
     } catch (error) {
       console.log(error);
     }
@@ -34,7 +37,18 @@ function OrganizationDash({ orgID, orgName }) {
       <div className="container text-white">
         <h1 className="title">{orgName}</h1>
         <hr />
-        <a href="">Manage User Roles</a>
+        {!isLoading && (
+          <ul className="nav">
+            <li className="nav-item fs-4">
+              <a href={rolesUrl} className="nav-link">
+                <AiOutlineUsergroupAdd className="fs-2" />
+                Manage User Roles
+              </a>
+            </li>
+          </ul>
+        )}
+
+        <hr />
       </div>
       {isLoading ? (
         <Loading />

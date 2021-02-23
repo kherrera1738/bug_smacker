@@ -1,10 +1,15 @@
 class PositionsController < ApplicationController
   before_action :set_position, only: %i[ show edit update destroy ]
   before_action :authenticate_user!
+  skip_before_action :verify_authenticity_token, only: [ :create ] 
 
   # GET /positions or /positions.json
   def index
     @positions = Position.all
+  end
+
+  def index_org_pos
+    render json: Organization.find_by(id: params[:id]).positions
   end
 
   # GET /positions/1 or /positions/1.json
@@ -27,7 +32,7 @@ class PositionsController < ApplicationController
     respond_to do |format|
       if is_admin? and @position.save
         format.html { redirect_to @position, notice: "Position was successfully created." }
-        format.json { render :show, status: :created, location: @position }
+        format.json { render json: @position }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @position.errors, status: :unprocessable_entity }
