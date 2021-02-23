@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Loading from "../Loading";
-// import StatsDashboard from "../StatsDashboard";
-import DataGraph from "../DataGraph";
 import TicketsList from "../TicketsList";
+import { AiOutlineUsergroupAdd } from "react-icons/ai";
 
 function ProjectDash({ pID, projName }) {
   const [isLoading, setIsLoading] = useState(true);
   const [tickets, setTickets] = useState([]);
   const [teamMembers, setTeamMembers] = useState(null);
   const [description, setDescription] = useState("");
+  const [teamUrl, setTeamUrl] = useState("");
 
   function orgContentUrl(pID) {
     return `/projects/${pID}.json`;
@@ -18,11 +18,17 @@ function ProjectDash({ pID, projName }) {
     setIsLoading(true);
     try {
       const response = await fetch(orgContentUrl(pID));
-      const { tickets, description, teamMembers } = await response.json();
+      const {
+        tickets,
+        description,
+        teamMembers,
+        manageTeamUrl,
+      } = await response.json();
       console.log(teamMembers);
       setTeamMembers(teamMembers);
       setTickets(tickets);
       setDescription(description);
+      setTeamUrl(manageTeamUrl);
     } catch (error) {
       console.log(error);
     }
@@ -37,6 +43,17 @@ function ProjectDash({ pID, projName }) {
     <>
       <div className="container text-white">
         <h1 className="title">{projName}</h1>
+        <hr />
+        {!isLoading && (
+          <ul className="nav">
+            <li className="nav-item fs-4">
+              <a href={teamUrl} className="nav-link">
+                <AiOutlineUsergroupAdd className="fs-2" />
+                Manage Team
+              </a>
+            </li>
+          </ul>
+        )}
         <hr />
       </div>
       {isLoading ? (

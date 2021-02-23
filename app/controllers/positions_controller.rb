@@ -8,6 +8,7 @@ class PositionsController < ApplicationController
     @positions = Position.all
   end
 
+  # GET /positions/organization/1
   def index_org_pos
     render json: Organization.find_by(id: params[:id]).positions
   end

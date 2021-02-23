@@ -25,6 +25,10 @@ class DashboardsController < ApplicationController
     @organization = Organization.find_by(id: params[:id])
   end
 
+  def manage_team
+    @project = Project.find_by(id: params[:id])
+  end
+
   private
     def set_user
       @user = User.find_by(id: params[:id])
