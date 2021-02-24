@@ -2,11 +2,17 @@ import React, { useState, useEffect } from "react";
 import Loading from "../Loading";
 import TicketDetails from "../TicketDetails";
 import CommentsSection from "../CommentsSection";
-import HistorySection from "../HistorySection";
+import SearchTable from "../SearchTable";
 
 function TicketDash({ tid, ticketTitle }) {
   const [isLoading, setIsLoading] = useState(true);
   const [ticketInfo, setTicketInfo] = useState(null);
+  const historyHeaders = [
+    { name: "Property", val: "changeType" },
+    { name: "Old Value", val: "oldVal" },
+    { name: "New Value", val: "newVal" },
+    { name: "Date Changed", val: "changeDate" },
+  ];
 
   function ticketContentUrl(tid) {
     return `/tickets/${tid}.json`;
@@ -43,7 +49,12 @@ function TicketDash({ tid, ticketTitle }) {
               <TicketDetails {...ticketInfo}></TicketDetails>
             </div>
             <div className="col-12 col-lg-6 col-xl-5 col-xxl-4 mb-4">
-              <HistorySection histories={ticketInfo.histories} />
+              <SearchTable
+                rows={ticketInfo.histories}
+                headers={historyHeaders}
+                pageSize={4}
+                title={"Ticket History"}
+              />
             </div>
           </div>
           <div className="row text-white justify-content-center">

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Loading from "../Loading";
 import PositionForm from "./PositionForm";
-import PositionsList from "./PositionList";
+import SearchTable from "../SearchTable";
 
 function RoleManageDash({ orgID }) {
   const [isLoading, setIsLoading] = useState(true);
@@ -9,6 +9,10 @@ function RoleManageDash({ orgID }) {
   const [users, setUsers] = useState([]);
   const userBar = useRef(null);
   const roleBar = useRef(null);
+  const rolesHeaders = [
+    { name: "Name", val: "name" },
+    { name: "Role", val: "role" },
+  ];
 
   function positionsUrl(orgID) {
     return `/positions/organization/${orgID}`;
@@ -87,7 +91,12 @@ function RoleManageDash({ orgID }) {
                 />
               </div>
               <div className="col-12 col-lg-7 col-xl-6 col-xxl-5 my-5 ml-5">
-                <PositionsList positions={positions} />
+                <SearchTable
+                  rows={positions}
+                  headers={rolesHeaders}
+                  pageSize={10}
+                  title={"Organization Roles"}
+                />
               </div>
             </div>
           </div>

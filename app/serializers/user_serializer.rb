@@ -9,7 +9,7 @@ class UserSerializer < ActiveModel::Serializer
         role: position.role,
         organization: position.organization.name,
         url: organization_dashboard_path(position.organization.id),
-        owned: (position.organization.owner == object)
+        owned: "#{(position.organization.owner == object)}".capitalize
       })
     end
     return positions

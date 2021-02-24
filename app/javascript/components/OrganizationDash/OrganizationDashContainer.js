@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Loading from "../Loading";
 import StatsDashboard from "../StatsDashboard";
-import ProjectsList from "../ProjectsList";
+import SearchTable from "../SearchTable";
 import { AiOutlineUsergroupAdd } from "react-icons/ai";
 
 function OrganizationDash({ orgID, orgName }) {
@@ -9,6 +9,10 @@ function OrganizationDash({ orgID, orgName }) {
   const [projects, setProjects] = useState([]);
   const [orgInfo, setOrgInfo] = useState(null);
   const [rolesUrl, setRolesUrl] = useState("");
+  const projectHeaders = [
+    { name: "Name", val: "name" },
+    { name: "View", val: "url", isUrl: true, placeholder: "View Project" },
+  ];
 
   function orgContentUrl(orgID) {
     return `/organizations/${orgID}.json`;
@@ -58,7 +62,13 @@ function OrganizationDash({ orgID, orgName }) {
             <StatsDashboard {...orgInfo} />
             <div className="row justify-content-center">
               <div className="text-white col-12 col-xl-10 col-xxl-8 mb-4">
-                <ProjectsList projects={projects} />
+                {/* <ProjectsList projects={projects} /> */}
+                <SearchTable
+                  rows={projects}
+                  headers={projectHeaders}
+                  pageSize={5}
+                  title={"Projects"}
+                />
               </div>
             </div>
           </div>

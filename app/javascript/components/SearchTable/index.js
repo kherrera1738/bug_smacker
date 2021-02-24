@@ -1,15 +1,16 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useReducer, useEffect } from "react";
+import TableRow from "./TableRow";
 import Footer from "../Footer";
-import Position from "./Position";
+import TableHeader from "./TableHeader";
 
-const pageSize = 10;
 const initalState = {
   order: "desc",
   searchTerm: "",
-  sortTerm: "name",
+  sortTerm: "",
   pageIndex: 0,
   maxPage: 0,
-  positions: [],
+  rows: [],
+  pageSize: 0,
 };
 
 function reducer(state, action) {
@@ -17,8 +18,10 @@ function reducer(state, action) {
     case "setup":
       return {
         ...state,
-        maxPage: Math.ceil(action.payload.length / pageSize),
-        positions: action.payload,
+        maxPage: Math.ceil(action.rows.length / action.pageSize),
+        rows: action.rows,
+        pageSize: action.pageSize,
+        sortTerm: action.headers[action.headers.length - 1].val,
       };
     case "increment":
       return {
@@ -53,26 +56,29 @@ function reducer(state, action) {
   }
 }
 
-function PositionList({ positions }) {
+function SearchTable({ rows, headers, pageSize, title }) {
   const [state, dispatch] = useReducer(reducer, initalState);
   useEffect(() => {
-    dispatch({ type: "setup", payload: positions });
-  }, [positions]);
+    dispatch({
+      type: "setup",
+      rows: rows,
+      pageSize: pageSize,
+      headers: headers,
+    });
+  }, [rows]);
 
-  function changeSort(e, newTerm) {
-    e.preventDefault();
-    dispatch({ type: "changeSort", payload: newTerm });
-  }
-
-  function matchesSearchTerm(position) {
+  function matchesSearchTerm(row) {
     let lcSearchTerm = state.searchTerm.toLowerCase();
-    return (
-      position.role.toLowerCase().includes(lcSearchTerm) ||
-      position.name.toLowerCase().includes(lcSearchTerm)
-    );
+    for (let i = 0; i < headers.length; i++) {
+      const val = headers[i].val;
+      if (row[val].toLowerCase().includes(lcSearchTerm)) {
+        return true;
+      }
+    }
+    return false;
   }
 
-  function sortPositions(a, b) {
+  function sortrows(a, b) {
     let h1 = a[state.sortTerm].toLowerCase();
     let h2 = b[state.sortTerm].toLowerCase();
     let mod = state.order === "desc" ? -1 : 1;
@@ -85,31 +91,24 @@ function PositionList({ positions }) {
     return 0;
   }
 
-  function getPositions() {
-    let subsetPositions = state.positions;
+  function getrows() {
+    let subsetrows = state.rows;
     if (state.searchTerm) {
-      subsetPositions = state.positions.filter(matchesSearchTerm);
+      subsetrows = state.rows.filter(matchesSearchTerm);
     }
-    subsetPositions.sort(sortPositions);
-    state.maxPage = Math.ceil(subsetPositions.length / pageSize);
+    subsetrows.sort(sortrows);
+    state.maxPage = Math.ceil(subsetrows.length / pageSize);
     state.pageIndex = Math.min(state.pageIndex, state.maxPage - 1);
     state.pageIndex = Math.max(state.pageIndex, 0);
-    return subsetPositions.slice(
+    return subsetrows.slice(
       state.pageIndex * pageSize,
       (state.pageIndex + 1) * pageSize
     );
   }
 
-  function getSortArrowClass(propName) {
-    if (propName === state.sortTerm) {
-      return state.order === "asc" ? "asc" : "desc";
-    }
-    return "";
-  }
-
   return (
     <div className="ticket-card mb-0">
-      <h1 className="px-3 py-3 my-0">Organization Roles</h1>
+      <h1 className="px-3 py-3 my-0">{title}</h1>
       <div className="container-fluid search">
         <form>
           <div className="row justify-content-end align-items-center">
@@ -131,31 +130,10 @@ function PositionList({ positions }) {
       </div>
       <div className="ticket-card-body">
         <table className="table table-hover fs-3 mb-0">
-          <thead>
-            <tr>
-              <th scope="col">
-                <a
-                  href=""
-                  className={`sort-by ${getSortArrowClass("role")}`}
-                  onClick={(e) => changeSort(e, "role")}
-                >
-                  Name
-                </a>
-              </th>
-              <th scope="col">
-                <a
-                  href=""
-                  className={`sort-by ${getSortArrowClass("name")}`}
-                  onClick={(e) => changeSort(e, "name")}
-                >
-                  Role
-                </a>
-              </th>
-            </tr>
-          </thead>
+          <TableHeader headers={headers} state={state} dispatch={dispatch} />
           <tbody>
-            {getPositions().map((position, index) => {
-              return <Position {...position} key={index} />;
+            {getrows().map((row, index) => {
+              return <TableRow row={row} headers={headers} key={index} />;
             })}
           </tbody>
         </table>
@@ -165,4 +143,4 @@ function PositionList({ positions }) {
   );
 }
 
-export default PositionList;
+export default SearchTable;

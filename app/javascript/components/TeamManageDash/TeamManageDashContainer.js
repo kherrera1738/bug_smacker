@@ -1,13 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
 import Loading from "../Loading";
 import TeamMemberForm from "./TeamMemberForm";
-import TeamMemberList from "./TeamMembersList";
+import SearchTable from "../SearchTable";
 
 function RoleManageDash({ projID, orgID }) {
   const [isLoading, setIsLoading] = useState(true);
   const [teamMembers, setTeamMembers] = useState([]);
   const [positions, setPositions] = useState([]);
   const userBar = useRef(null);
+  const rolesHeaders = [
+    { name: "Name", val: "name" },
+    { name: "Role", val: "role" },
+  ];
 
   function teamMembersUrl(projID) {
     return `/team_members/project/${projID}`;
@@ -83,7 +87,12 @@ function RoleManageDash({ projID, orgID }) {
                 />
               </div>
               <div className="col-12 col-lg-7 col-xl-6 col-xxl-5 my-5 ml-5">
-                <TeamMemberList teamMembers={teamMembers} />
+                <SearchTable
+                  rows={teamMembers}
+                  headers={rolesHeaders}
+                  pageSize={10}
+                  title={"Project Roles"}
+                />
               </div>
             </div>
           </div>
