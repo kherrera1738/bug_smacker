@@ -7,7 +7,7 @@ function AddProjForm({ projNameBar, descriptionArea, addProj }) {
       <input
         type="text"
         className="form-control fs-4"
-        placeholder="Organization Name..."
+        placeholder="Project Name..."
         ref={projNameBar}
       />
       <textarea

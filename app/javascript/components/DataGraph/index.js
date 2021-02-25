@@ -1,11 +1,20 @@
 import React, { useEffect, useState } from "react";
-import Chart from "chart.js";
+import Chart, { scaleService } from "chart.js";
 
 function DataGraph({ dataset, graphType, title, card_label }) {
   const chartContainer = React.createRef();
   const [chartInstance, setChartInstance] = useState(null);
 
   const { labels, data } = dataset;
+
+  var options = {};
+  if (graphType === "bar") {
+    options = {
+      scales: {
+        yAxes: [{ ticks: { beginAtZero: true, stepSize: 1 } }],
+      },
+    };
+  }
 
   const config = {
     type: graphType,
@@ -32,6 +41,7 @@ function DataGraph({ dataset, graphType, title, card_label }) {
         },
       ],
     },
+    options: options,
   };
 
   useEffect(() => {

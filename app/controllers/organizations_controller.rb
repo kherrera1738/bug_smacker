@@ -52,10 +52,11 @@ class OrganizationsController < ApplicationController
   def update
     respond_to do |format|
       if @organization.update(organization_params)
-        format.html { redirect_to @organization, notice: "Organization was successfully updated." }
+        format.html { redirect_to organization_dashboard_path(@organization.id), notice: "Organization was successfully updated." }
         format.json { render :show, status: :ok, location: @organization }
       else
-        format.html { render :edit, status: :unprocessable_entity }
+        flash[:alert] = "Organization could not be updated"
+        format.html { redirect_to organization_dashboard_path(@organization.id) }
         format.json { render json: @organization.errors, status: :unprocessable_entity }
       end
     end

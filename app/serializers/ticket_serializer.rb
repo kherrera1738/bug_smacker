@@ -1,5 +1,11 @@
 class TicketSerializer < ActiveModel::Serializer
-  attributes :title, :description, :priority, :status, :ticket_type, :created_at, :updated_at, :assignedDev, :project, :comments, :histories, :submittedBy
+  include Rails.application.routes.url_helpers
+  attributes :title, :description, :priority, :status, :ticket_type, :created_at, :updated_at, :assignedDev, :project, :comments, :histories, :submittedBy, :editUrl, :projUrl
+
+  def projUrl
+    project_dashboard_path(object.project_id)
+  end
+
   def assignedDev
     (object.assigned_dev && object.assigned_dev.name) || "None"
   end
@@ -43,5 +49,9 @@ class TicketSerializer < ActiveModel::Serializer
 
   def updated_at
     object.created_at.strftime("%b-%d-%Y, %I:%M %p")
+  end
+
+  def editUrl
+    edit_ticket_path(object.id)
   end
 end

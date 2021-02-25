@@ -44,9 +44,14 @@ function TicketDash({ tid, ticketTitle }) {
           <>
             <ul className="nav">
               <li className="nav-item fs-4">
-                <a href="" className="nav-link">
+                <a href={ticketInfo.editUrl} className="nav-link">
                   <AiOutlineEdit className="fs-2" />
                   Edit Ticket Details
+                </a>
+              </li>
+              <li className="nav-item fs-4">
+                <a href={ticketInfo.projUrl} className="nav-link">
+                  Back To Project
                 </a>
               </li>
             </ul>

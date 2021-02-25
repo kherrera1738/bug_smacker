@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   resources :team_members
   get 'team_members/project/:id', to: 'team_members#index_team_members'
   resources :projects
+  get 'projects/:id/add_ticket', to: 'projects#add_ticket', as: 'add_ticket'
   resources :positions
   get 'positions/organization/:id', to: 'positions#index_org_pos'
   resources :organizations

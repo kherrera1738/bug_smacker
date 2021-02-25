@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Loading from "../Loading";
 import SearchTable from "../SearchTable";
-import { AiOutlineUsergroupAdd, AiOutlineEdit } from "react-icons/ai";
+import {
+  AiOutlineUsergroupAdd,
+  AiOutlineEdit,
+  AiOutlineAppstoreAdd,
+} from "react-icons/ai";
 
 function ProjectDash({ pID, projName }) {
   const [isLoading, setIsLoading] = useState(true);
@@ -9,6 +13,9 @@ function ProjectDash({ pID, projName }) {
   const [teamMembers, setTeamMembers] = useState(null);
   const [description, setDescription] = useState("");
   const [teamUrl, setTeamUrl] = useState("");
+  const [orgUrl, setOrgUrl] = useState("");
+  const [editUrl, setEditUrl] = useState("");
+  const [addTicketUrl, setAddTicketUrl] = useState("");
   const ticketHeaders = [
     { name: "Title", val: "title" },
     { name: "Priority", val: "priority" },
@@ -35,11 +42,17 @@ function ProjectDash({ pID, projName }) {
         description,
         teamMembers,
         manageTeamUrl,
+        organizationUrl,
+        editUrl,
+        addTicketUrl,
       } = await response.json();
       setTeamMembers(teamMembers);
       setTickets(tickets);
       setDescription(description);
       setTeamUrl(manageTeamUrl);
+      setOrgUrl(organizationUrl);
+      setEditUrl(editUrl);
+      setAddTicketUrl(addTicketUrl);
     } catch (error) {
       console.log(error);
     }
@@ -65,9 +78,20 @@ function ProjectDash({ pID, projName }) {
                 </a>
               </li>
               <li className="nav-item fs-4">
-                <a href="" className="nav-link">
+                <a href={editUrl} className="nav-link">
                   <AiOutlineEdit className="fs-2" />
                   Edit Project Details
+                </a>
+              </li>
+              <li className="nav-item fs-4">
+                <a href={addTicketUrl} className="nav-link">
+                  <AiOutlineAppstoreAdd className="fs-2" />
+                  Add Ticket
+                </a>
+              </li>
+              <li className="nav-item fs-4">
+                <a href={orgUrl} className="nav-link">
+                  Back To Organization
                 </a>
               </li>
             </ul>

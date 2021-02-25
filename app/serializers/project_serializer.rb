@@ -1,9 +1,21 @@
 class ProjectSerializer < ActiveModel::Serializer
   include Rails.application.routes.url_helpers
-  attributes :tickets, :description, :teamMembers, :manageTeamUrl
-  
+  attributes :tickets, :description, :teamMembers, :manageTeamUrl, :organizationUrl, :editUrl, :addTicketUrl
+
   def manageTeamUrl
     manage_team_dashboard_path(object.id)
+  end
+
+  def organizationUrl
+    organization_dashboard_path(object.organization_id)
+  end
+
+  def editUrl
+    edit_project_path(object.id)
+  end
+
+  def addTicketUrl
+    add_ticket_path(object.id)
   end
 
   def teamMembers

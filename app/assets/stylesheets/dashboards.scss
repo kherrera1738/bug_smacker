@@ -1,102 +1,102 @@
 // Place all the styles related to the Dashboards controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
-$transp-grey-color: #131314d3;
+// $transp-grey-color: #131314d3;
 
-// Table styles
+// // Table styles
 
-tr {
-  background-color: $transp-grey-color !important;
-  color: white !important;
-}
+// tr {
+//   background-color: $transp-grey-color !important;
+//   color: white !important;
+// }
 
-// Link styles
+// // Link styles
 
-a:link {
-  text-decoration: none;
-  color: white !important;
-}
+// a:link {
+//   text-decoration: none;
+//   color: white !important;
+// }
 
-a:hover,
-a:visited {
-  background-color: transparent !important;
-  color: white !important;
-}
+// a:hover,
+// a:visited {
+//   background-color: transparent !important;
+//   color: white !important;
+// }
 
-.ticket-card {
-  h1 {
-    background-color: #353535;
-  }
+// .ticket-card {
+//   h1 {
+//     background-color: #353535;
+//   }
 
-  tr {
-    background-color: transparent !important;
-  }
-}
+//   tr {
+//     background-color: transparent !important;
+//   }
+// }
 
-.ticket-card-body {
-  background-color: #3f3f3fc9 !important;
-}
+// .ticket-card-body {
+//   background-color: #3f3f3fc9 !important;
+// }
 
-// Icon styles
+// // Icon styles
 
-.arrow {
-  background-color: #3f3f3fc9 !important;
-}
+// .arrow {
+//   background-color: #3f3f3fc9 !important;
+// }
 
-// Search bar style
+// // Search bar style
 
-.search {
-  background-color: #484848;
-}
+// .search {
+//   background-color: #484848;
+// }
 
-th a.sort-by {
-  padding-right: 18px;
-  position: relative;
-}
+// th a.sort-by {
+//   padding-right: 18px;
+//   position: relative;
+// }
 
-a.sort-by:before,
-a.sort-by:after {
-  border: 4px solid transparent;
-  content: "";
-  display: block;
-  height: 0;
-  right: 5px;
-  top: 50%;
-  position: absolute;
-  width: 0;
-}
+// a.sort-by:before,
+// a.sort-by:after {
+//   border: 4px solid transparent;
+//   content: "";
+//   display: block;
+//   height: 0;
+//   right: 5px;
+//   top: 50%;
+//   position: absolute;
+//   width: 0;
+// }
 
-a.sort-by:before {
-  border-bottom-color: white;
-  margin-top: -9px;
-}
-a.sort-by:after {
-  border-top-color: white;
-  margin-top: 1px;
-}
+// a.sort-by:before {
+//   border-bottom-color: white;
+//   margin-top: -9px;
+// }
+// a.sort-by:after {
+//   border-top-color: white;
+//   margin-top: 1px;
+// }
 
-td,
-th {
-  padding: 4px;
-  border: 1px solid white;
-  overflow: hidden;
-  text-align: left;
-  vertical-align: middle;
-}
-th {
-  background-color: white;
-  font-weight: 400;
-}
-th a,
-td a {
-  display: block;
-  width: 100%;
-}
+// td,
+// th {
+//   padding: 4px;
+//   border: 1px solid white;
+//   overflow: hidden;
+//   text-align: left;
+//   vertical-align: middle;
+// }
+// th {
+//   background-color: white;
+//   font-weight: 400;
+// }
+// th a,
+// td a {
+//   display: block;
+//   width: 100%;
+// }
 
-a.asc:before {
-  border-bottom-color: rgb(141, 141, 141) !important;
-}
+// a.asc:before {
+//   border-bottom-color: rgb(141, 141, 141) !important;
+// }
 
-a.desc:after {
-  border-top-color: rgb(141, 141, 141) !important;
-}
+// a.desc:after {
+//   border-top-color: rgb(141, 141, 141) !important;
+// }

@@ -15,6 +15,6 @@ class Ticket < ApplicationRecord
   validates :status, inclusion: { in: STATUSES, message: "Status is not valid" }
   validates :ticket_type, inclusion: { in: TYPES, message: "Type is not valid" }
 
-  # want project id unchangable
+  # Project id unchangable
   attr_readonly :project_id
 end

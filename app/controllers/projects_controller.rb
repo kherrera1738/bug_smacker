@@ -1,7 +1,7 @@
 class ProjectsController < ApplicationController
-  before_action :set_project, only: [ :show, :edit, :update, :destroy ]
-  before_action :authenticate_user!, only: [ :edit, :update, :destroy ]
-  before_action :is_part_of_organization?, only: [ :show, :edit, :update, :destroy ]
+  before_action :set_project, only: [ :show, :edit, :update, :destroy, :add_ticket ]
+  before_action :authenticate_user!, only: [ :edit, :update, :destroy, :add_ticket ]
+  before_action :is_part_of_organization?, only: [ :show, :edit, :update, :destroy, :add_ticket ]
   skip_before_action :verify_authenticity_token, only: [ :create ] 
 
   # GET /projects or /projects.json
@@ -22,6 +22,10 @@ class ProjectsController < ApplicationController
     @project = Project.new
   end
 
+  # Get /project/1/add_ticket
+  def add_ticket
+    @ticket = Ticket.new
+  end
   # GET /projects/1/edit
   def edit
   end
@@ -49,7 +53,7 @@ class ProjectsController < ApplicationController
   def update
     respond_to do |format|
       if (is_organization_admin? or is_project_pm?) and @project.update(project_params)
-        format.html { redirect_to @project, notice: "Project was successfully updated." }
+        format.html { redirect_to project_dashboard_path(@project.id), notice: "Project was successfully updated." }
         format.json { render :show, status: :ok, location: @project }
       else
         format.html { render :edit, status: :unprocessable_entity }

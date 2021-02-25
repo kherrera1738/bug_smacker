@@ -3,6 +3,7 @@ import Loading from "../Loading";
 import StatsDashboard from "../StatsDashboard";
 import SearchTable from "../SearchTable";
 import AddProjForm from "./AddProjForm";
+import { useGlobalContext } from "../AppContext";
 import { AiOutlineUsergroupAdd, AiOutlineEdit } from "react-icons/ai";
 
 function OrganizationDash({ orgID, orgName }) {
@@ -10,8 +11,10 @@ function OrganizationDash({ orgID, orgName }) {
   const [projects, setProjects] = useState([]);
   const [orgInfo, setOrgInfo] = useState(null);
   const [rolesUrl, setRolesUrl] = useState("");
+  const [editUrl, setEditUrl] = useState("");
   const projNameBar = useRef(null);
   const descriptionArea = useRef(null);
+  const { uid } = useGlobalContext();
   const projectHeaders = [
     { name: "Name", val: "name" },
     { name: "View", val: "url", isUrl: true, placeholder: "View Project" },
@@ -57,10 +60,11 @@ function OrganizationDash({ orgID, orgName }) {
     setIsLoading(true);
     try {
       const response = await fetch(orgContentUrl(orgID));
-      const { info, projects, manageRolesUrl } = await response.json();
+      const { info, projects, manageRolesUrl, editUrl } = await response.json();
       setOrgInfo(info);
       setProjects(projects);
       setRolesUrl(manageRolesUrl);
+      setEditUrl(editUrl);
     } catch (error) {
       console.log(error);
     }
@@ -86,9 +90,14 @@ function OrganizationDash({ orgID, orgName }) {
                 </a>
               </li>
               <li className="nav-item fs-4">
-                <a href="" className="nav-link">
+                <a href={editUrl} className="nav-link">
                   <AiOutlineEdit className="fs-2" />
                   Edit Oganization Details
+                </a>
+              </li>
+              <li className="nav-item fs-4">
+                <a href={`/dashboard/${uid}`} className="nav-link">
+                  Back To Main Dashboard
                 </a>
               </li>
             </ul>

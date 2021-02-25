@@ -30,10 +30,11 @@ class TicketsController < ApplicationController
 
     respond_to do |format|
       if @ticket.save
-        format.html { redirect_to @ticket, notice: "Ticket was successfully created." }
+        format.html { redirect_to ticket_dashboard_path(@ticket), notice: "Ticket was successfully created." }
         format.json { render :show, status: :created, location: @ticket }
       else
-        format.html { render :new, status: :unprocessable_entity }
+        flash[:alert] = "Ticket could not be created."
+        format.html { redirect_to project_dashboard_path(params[:ticket][:project_id]) }
         format.json { render json: @ticket.errors, status: :unprocessable_entity }
       end
     end
@@ -42,15 +43,16 @@ class TicketsController < ApplicationController
   # PATCH/PUT /tickets/1 or /tickets/1.json
   def update
     respond_to do |format|
-      old_value, new_value, change_type = find_changes
-      if ok_to_edit? and @ticket.update(ticket_params)  
+      old_value, new_value, change_type, val = find_changes
+      if ok_to_edit? and @ticket.update_attribute(val.to_s, new_value)  
         old_value ||= "nil" 
         new_value ||= "nil"
         @ticket.histories.create(changed_by_id: current_user.id, old_value: old_value, new_value: new_value, change_type: change_type)
-        format.html { redirect_to @ticket, notice: "Ticket was successfully updated." }
+        format.html { redirect_to ticket_dashboard_path(@ticket.id), notice: "Ticket was successfully updated." }
         format.json { render :show, status: :ok, location: @ticket }
       else
-        format.html { render :edit, status: :unprocessable_entity }
+        flash[:alert] = "Could not update ticket."
+        format.html { redirect_to ticket_dashboard_path(@ticket.id) }
         format.json { render json: @ticket.errors, status: :unprocessable_entity }
       end
     end
@@ -97,7 +99,7 @@ class TicketsController < ApplicationController
 
     # Check if non nil parameters are okay to
     def ok_to_edit?
-      can_edit_dev? and can_edit_stp? and can_edit_title_or_description?
+      can_edit_dev? and can_edit_stp? and can_edit_title_or_description? and not_all_blank?
     end
 
     # Check if user is a project team member
@@ -109,21 +111,30 @@ class TicketsController < ApplicationController
       (params[:ticket][:title].nil? and params[:ticket][:description].nil?) or is_team_member?(current_user.id) or @ticket.submitted_by == current_user 
     end
 
+    def not_all_blank?
+      params[:ticket].keys.each do |key|
+        if key != "project_id" and !params[:ticket][key].blank?
+          return true
+        end
+      end
+      return false
+    end
+
     def find_changes
       ticket_params = params[:ticket]
-      if !ticket_params[:assigned_dev_id].nil?
+      if !ticket_params[:assigned_dev_id].blank?
         change_type = "assigned dev"
         val = :assigned_dev_id
-      elsif !ticket_params[:submitted_by_id].nil?
+      elsif !ticket_params[:submitted_by_id].blank?
         change_type = "submitted by"
         val = :submitted_by_id
-      elsif !ticket_params[:prioity].nil?
+      elsif !ticket_params[:priority].blank?
         change_type = "priority"
         val = :priority
-      elsif !ticket_params[:status].nil?
+      elsif !ticket_params[:status].blank?
         change_type = "status"
         val = :status
-      elsif !ticket_params[:title].nil?
+      elsif !ticket_params[:title].blank?
         change_type = "title"
         val = :title
       else
@@ -133,6 +144,6 @@ class TicketsController < ApplicationController
 
       old_value = @ticket.send(val)
       new_value = ticket_params[val]
-      return [old_value, new_value, change_type.to_s]
+      return [old_value, new_value, change_type.to_s, val]
     end
 end

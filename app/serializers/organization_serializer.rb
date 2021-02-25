@@ -1,6 +1,6 @@
 class OrganizationSerializer < ActiveModel::Serializer
   include Rails.application.routes.url_helpers
-  attributes :info, :projects, :manageRolesUrl
+  attributes :info, :projects, :manageRolesUrl, :editUrl
 
   def info
     priorities = {
@@ -27,7 +27,7 @@ class OrganizationSerializer < ActiveModel::Serializer
         priorities[ticket.priority] += 1
         status[ticket.status] += 1
         t_types[ticket.ticket_type] += 1
-        assigned[ticket.assigned_dev.name || "None"] += 1
+        assigned[(ticket.assigned_dev && ticket.assigned_dev.name )|| "None"] += 1
       end
     end
 
@@ -60,5 +60,9 @@ class OrganizationSerializer < ActiveModel::Serializer
 
   def manageRolesUrl
     manage_roles_dashboard_path(object.id)
+  end
+
+  def editUrl
+    edit_organization_path(object.id)
   end
 end
