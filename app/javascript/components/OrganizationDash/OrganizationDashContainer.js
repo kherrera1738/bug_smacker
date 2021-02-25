@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Loading from "../Loading";
 import StatsDashboard from "../StatsDashboard";
 import SearchTable from "../SearchTable";
-import { AiOutlineUsergroupAdd } from "react-icons/ai";
+import AddProjForm from "./AddProjForm";
+import { AiOutlineUsergroupAdd, AiOutlineEdit } from "react-icons/ai";
 
 function OrganizationDash({ orgID, orgName }) {
   const [isLoading, setIsLoading] = useState(true);
   const [projects, setProjects] = useState([]);
   const [orgInfo, setOrgInfo] = useState(null);
   const [rolesUrl, setRolesUrl] = useState("");
+  const projNameBar = useRef(null);
+  const descriptionArea = useRef(null);
   const projectHeaders = [
     { name: "Name", val: "name" },
     { name: "View", val: "url", isUrl: true, placeholder: "View Project" },
@@ -16,6 +19,38 @@ function OrganizationDash({ orgID, orgName }) {
 
   function orgContentUrl(orgID) {
     return `/organizations/${orgID}.json`;
+  }
+
+  async function addProj(e) {
+    e.preventDefault();
+    const projName = projNameBar.current.value;
+    const description = descriptionArea.current.value;
+    if (orgID && projName && description) {
+      const projectUrl = "/projects.json";
+      const data = {
+        name: projName,
+        organization_id: orgID,
+        description: description,
+      };
+      const requestObject = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(data),
+      };
+
+      try {
+        const response = await fetch(projectUrl, requestObject);
+        const newProject = await response.json();
+        setProjects([...projects, newProject]);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    projNameBar.current.value = "";
+    descriptionArea.current.value = "";
   }
 
   async function fetchOrgContent() {
@@ -42,17 +77,24 @@ function OrganizationDash({ orgID, orgName }) {
         <h1 className="title">{orgName}</h1>
         <hr />
         {!isLoading && (
-          <ul className="nav">
-            <li className="nav-item fs-4">
-              <a href={rolesUrl} className="nav-link">
-                <AiOutlineUsergroupAdd className="fs-2" />
-                Manage User Roles
-              </a>
-            </li>
-          </ul>
+          <>
+            <ul className="nav">
+              <li className="nav-item fs-4">
+                <a href={rolesUrl} className="nav-link">
+                  <AiOutlineUsergroupAdd className="fs-2" />
+                  Manage User Roles
+                </a>
+              </li>
+              <li className="nav-item fs-4">
+                <a href="" className="nav-link">
+                  <AiOutlineEdit className="fs-2" />
+                  Edit Oganization Details
+                </a>
+              </li>
+            </ul>
+            <hr />
+          </>
         )}
-
-        <hr />
       </div>
       {isLoading ? (
         <Loading />
@@ -60,14 +102,20 @@ function OrganizationDash({ orgID, orgName }) {
         <>
           <div className="">
             <StatsDashboard {...orgInfo} />
-            <div className="row justify-content-center">
-              <div className="text-white col-12 col-xl-10 col-xxl-8 mb-4">
-                {/* <ProjectsList projects={projects} /> */}
+            <div className="row justify-content-center text-white mb-5">
+              <div className="col-12 col-xl-7 col-xxl-5 mb-4">
                 <SearchTable
                   rows={projects}
                   headers={projectHeaders}
                   pageSize={5}
                   title={"Projects"}
+                />
+              </div>
+              <div className="col-12 col-xl-3">
+                <AddProjForm
+                  projNameBar={projNameBar}
+                  descriptionArea={descriptionArea}
+                  addProj={addProj}
                 />
               </div>
             </div>

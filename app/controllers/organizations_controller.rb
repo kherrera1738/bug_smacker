@@ -1,6 +1,7 @@
 class OrganizationsController < ApplicationController
   before_action :set_organization, only: %i[ show edit update destroy ]
   before_action :authenticate_user!, except: [:index, :show]
+  skip_before_action :verify_authenticity_token, only: [ :create ] 
 
   # GET /organizations or /organizations.json
   def index
@@ -32,9 +33,14 @@ class OrganizationsController < ApplicationController
       if @organization.save
         
         # Create an admin role for the owner
-        @organization.positions.create(filled_by_id: @organization.owner_id, role: 'Admin')
+        @position = @organization.positions.create(filled_by_id: @organization.owner_id, role: 'Admin')
         format.html { redirect_to @organization, notice: "Organization was successfully created." }
-        format.json { render :show, status: :created, location: @organization }
+        format.json { render json: {
+          organization: @organization.name,
+          role: @position.role,
+          owned: "True",
+          url: organization_dashboard_path(@organization.id)
+        } }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @organization.errors, status: :unprocessable_entity }

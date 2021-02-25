@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Loading from "../Loading";
 import SearchTable from "../SearchTable";
-import { AiOutlineUsergroupAdd } from "react-icons/ai";
+import { AiOutlineUsergroupAdd, AiOutlineEdit } from "react-icons/ai";
 
 function ProjectDash({ pID, projName }) {
   const [isLoading, setIsLoading] = useState(true);
@@ -36,7 +36,6 @@ function ProjectDash({ pID, projName }) {
         teamMembers,
         manageTeamUrl,
       } = await response.json();
-      console.log(teamMembers);
       setTeamMembers(teamMembers);
       setTickets(tickets);
       setDescription(description);
@@ -57,16 +56,24 @@ function ProjectDash({ pID, projName }) {
         <h1 className="title">{projName}</h1>
         <hr />
         {!isLoading && (
-          <ul className="nav">
-            <li className="nav-item fs-4">
-              <a href={teamUrl} className="nav-link">
-                <AiOutlineUsergroupAdd className="fs-2" />
-                Manage Team
-              </a>
-            </li>
-          </ul>
+          <>
+            <ul className="nav">
+              <li className="nav-item fs-4">
+                <a href={teamUrl} className="nav-link">
+                  <AiOutlineUsergroupAdd className="fs-2" />
+                  Manage Team
+                </a>
+              </li>
+              <li className="nav-item fs-4">
+                <a href="" className="nav-link">
+                  <AiOutlineEdit className="fs-2" />
+                  Edit Project Details
+                </a>
+              </li>
+            </ul>
+            <hr />
+          </>
         )}
-        <hr />
       </div>
       {isLoading ? (
         <Loading />
@@ -77,7 +84,7 @@ function ProjectDash({ pID, projName }) {
               <div className="col-12 col-xl-10 col-xxl-8 mb-4">
                 <div className="ticket-card">
                   <div className="px-4 py-3 ticket-card-body">
-                    <h3>Ticket Description</h3>
+                    <h3>Project Description</h3>
                     <hr />
                     <p className="fs-4 px-1 py-2">{description}</p>
                   </div>
@@ -85,7 +92,7 @@ function ProjectDash({ pID, projName }) {
               </div>
             </div>
           </div>
-          <div className="">
+          <div className="container-fluid">
             <div className="row justify-content-center text-white">
               <div className="col-12 col-lg-7 col-xl-7 col-xxl-5 mb-4">
                 <SearchTable

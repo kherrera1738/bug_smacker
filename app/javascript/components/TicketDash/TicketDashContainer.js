@@ -3,6 +3,7 @@ import Loading from "../Loading";
 import TicketDetails from "../TicketDetails";
 import CommentsSection from "../CommentsSection";
 import SearchTable from "../SearchTable";
+import { AiOutlineEdit } from "react-icons/ai";
 
 function TicketDash({ tid, ticketTitle }) {
   const [isLoading, setIsLoading] = useState(true);
@@ -39,6 +40,19 @@ function TicketDash({ tid, ticketTitle }) {
       <div className="container text-white">
         <h1 className="title">{ticketTitle}</h1>
         <hr />
+        {!isLoading && (
+          <>
+            <ul className="nav">
+              <li className="nav-item fs-4">
+                <a href="" className="nav-link">
+                  <AiOutlineEdit className="fs-2" />
+                  Edit Ticket Details
+                </a>
+              </li>
+            </ul>
+            <hr />
+          </>
+        )}
       </div>
       {isLoading ? (
         <Loading />
