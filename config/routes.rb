@@ -20,7 +20,8 @@ Rails.application.routes.draw do
   get 'positions/organization/:id', to: 'positions#index_org_pos'
   resources :organizations
   devise_for :users, controllers: {
-    registrations: 'registrations'
+    registrations: 'registrations',
+    omniauth_callbacks: 'users/omniauth_callbacks'
   }
   devise_scope :user do
     get '/users/all' => 'registrations#index'

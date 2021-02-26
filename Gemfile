@@ -28,7 +28,7 @@ gem 'image_processing', '~> 1.2'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
 gem 'simple_form', '~> 5.0', '>= 5.0.3'
-gem 'devise', '~> 4.7', '>= 4.7.3'
+gem 'devise', '~> 4.7', '>= 4.7.3', github: 'heartcombo/devise', branch: 'ca-omniauth-2'
 gem 'gravatar_image_tag', '~> 1.2'
 gem 'carrierwave'
 gem 'mini_magick'
@@ -41,6 +41,8 @@ gem 'rexml'
 gem 'msgpack', '~> 1.4', '>= 1.4.1'
 gem 'active_model_serializers', '~> 0.10.12'
 gem 'react-rails'
+gem 'omniauth-facebook'
+gem 'omniauth-rails_csrf_protection'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
