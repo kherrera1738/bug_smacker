@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Loading from "../Loading";
 import PositionForm from "./PositionForm";
 import SearchTable from "../SearchTable";
+import { useGlobalContext } from "../AppContext";
 
 function RoleManageDash({ orgID }) {
   const [isLoading, setIsLoading] = useState(true);
@@ -9,13 +10,16 @@ function RoleManageDash({ orgID }) {
   const [users, setUsers] = useState([]);
   const userBar = useRef(null);
   const roleBar = useRef(null);
+  const { trialMode } = useGlobalContext();
   const rolesHeaders = [
     { name: "Name", val: "name" },
     { name: "Role", val: "role" },
   ];
 
   function positionsUrl(orgID) {
-    return `/positions/organization/${orgID}`;
+    return trialMode
+      ? "/trials/manage_roles/content"
+      : `/positions/organization/${orgID}`;
   }
 
   async function addRole(e) {
@@ -39,8 +43,16 @@ function RoleManageDash({ orgID }) {
       };
 
       try {
-        const response = await fetch(posUrl, requestObject);
-        const newPosition = await response.json();
+        if (trialMode) {
+          const response = await fetch(posUrl, requestObject);
+          var newPosition = await response.json();
+        } else {
+          newPosition = {
+            name: userBar.current.innerHTML,
+            role: roleBar.current.value,
+          };
+        }
+
         setPositions([...positions, newPosition]);
       } catch (error) {
         console.log(error);
@@ -88,6 +100,7 @@ function RoleManageDash({ orgID }) {
                   userBar={userBar}
                   roleBar={roleBar}
                   addRole={addRole}
+                  trialMode={trialMode}
                 />
               </div>
               <div className="col-12 col-lg-7 col-xl-6 col-xxl-5 my-5 ml-5">

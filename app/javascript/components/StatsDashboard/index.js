@@ -27,7 +27,7 @@ function StatsDashboard({ priorities, types, assigned, statuses }) {
           <DataGraph
             dataset={statuses}
             graphType={"bar"}
-            title={"Stauts"}
+            title={"Status"}
             card_label={"Tickets by Status"}
           />
         </div>
@@ -37,6 +37,7 @@ function StatsDashboard({ priorities, types, assigned, statuses }) {
             graphType={"doughnut"}
             title={"Assigned"}
             card_label={"Tickets by Assigned"}
+            randomColor={true}
           />
         </div>
       </div>

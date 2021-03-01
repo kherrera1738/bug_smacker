@@ -1,6 +1,6 @@
 import React from "react";
 
-function PositionForm({ users, userBar, roleBar, addRole }) {
+function PositionForm({ users, userBar, roleBar, addRole, trialMode }) {
   return (
     <form>
       <section className="my-5">

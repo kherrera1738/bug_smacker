@@ -131,6 +131,9 @@ class TicketsController < ApplicationController
       elsif !ticket_params[:priority].blank?
         change_type = "priority"
         val = :priority
+      elsif !ticket_params[:ticket_type].blank?
+        change_type = "ticket type"
+        val = :ticket_type
       elsif !ticket_params[:status].blank?
         change_type = "status"
         val = :status

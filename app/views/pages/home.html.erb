@@ -3,8 +3,14 @@
     <h1 class="text-light">Welcome</h1>
     <p class="lead">This is the home page for the rails issue tracker where you'll find tools for managing your software's tickets, bugs, and issues.</p>
     <p class="lead">Sign up for an account or feel free to check out one of the trail accounts to preview the system. </p>
-    <button class="btn btn-primary"> <span class="fs-2">Sign up for an account</span> </button>
-    <button class="btn btn-dark"> <span class="fs-2">Use a trial account</span> </button>
+    <button class="btn btn-primary"> 
+      <span class="fs-2">Sign up for an account</span> 
+    </button>
+    <a href=<%= trial_organization_path(1) %>>
+      <button class="btn btn-dark"> 
+        <span class="fs-2">Use a trial account</span> 
+      </button>
+    </a>
   </div>
 </div>
 <div class="container pt-5">

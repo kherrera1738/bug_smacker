@@ -5,7 +5,7 @@ import CommentsSection from "../CommentsSection";
 import SearchTable from "../SearchTable";
 import { AiOutlineEdit } from "react-icons/ai";
 
-function TicketDash({ tid, ticketTitle }) {
+function TicketDash({ tid, ticketTitle, trialMode, pid }) {
   const [isLoading, setIsLoading] = useState(true);
   const [ticketInfo, setTicketInfo] = useState(null);
   const historyHeaders = [
@@ -16,7 +16,9 @@ function TicketDash({ tid, ticketTitle }) {
   ];
 
   function ticketContentUrl(tid) {
-    return `/tickets/${tid}.json`;
+    return trialMode
+      ? `/trials/ticket/content/${tid}.json`
+      : `/tickets/${tid}.json`;
   }
 
   async function fetchTicketContent() {
@@ -44,13 +46,25 @@ function TicketDash({ tid, ticketTitle }) {
           <>
             <ul className="nav">
               <li className="nav-item fs-4">
-                <a href={ticketInfo.editUrl} className="nav-link">
+                <a
+                  href={
+                    trialMode
+                      ? `/trials/ticket/${tid}/edit`
+                      : ticketInfo.editUrl
+                  }
+                  className="nav-link"
+                >
                   <AiOutlineEdit className="fs-2" />
                   Edit Ticket Details
                 </a>
               </li>
               <li className="nav-item fs-4">
-                <a href={ticketInfo.projUrl} className="nav-link">
+                <a
+                  href={
+                    trialMode ? `/trials/project/${pid}` : ticketInfo.projUrl
+                  }
+                  className="nav-link"
+                >
                   Back To Project
                 </a>
               </li>
@@ -78,7 +92,11 @@ function TicketDash({ tid, ticketTitle }) {
           </div>
           <div className="row text-white justify-content-center">
             <div className="col-12 col-xl-10 col-xxl-8 mb-4">
-              <CommentsSection comments={ticketInfo.comments} tid={tid} />
+              <CommentsSection
+                comments={ticketInfo.comments}
+                tid={tid}
+                trialMode={trialMode}
+              />
             </div>
           </div>
         </div>

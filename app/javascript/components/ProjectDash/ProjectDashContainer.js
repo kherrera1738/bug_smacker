@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Loading from "../Loading";
 import SearchTable from "../SearchTable";
+import { useGlobalContext } from "../AppContext";
 import {
   AiOutlineUsergroupAdd,
   AiOutlineEdit,
@@ -16,6 +17,7 @@ function ProjectDash({ pID, projName }) {
   const [orgUrl, setOrgUrl] = useState("");
   const [editUrl, setEditUrl] = useState("");
   const [addTicketUrl, setAddTicketUrl] = useState("");
+  const { trialMode } = useGlobalContext();
   const ticketHeaders = [
     { name: "Title", val: "title" },
     { name: "Priority", val: "priority" },
@@ -30,7 +32,9 @@ function ProjectDash({ pID, projName }) {
   ];
 
   function orgContentUrl(pID) {
-    return `/projects/${pID}.json`;
+    return trialMode
+      ? `/trials/project/content/${pID}`
+      : `/projects/${pID}.json`;
   }
 
   async function fetchProjContent() {
@@ -46,6 +50,12 @@ function ProjectDash({ pID, projName }) {
         editUrl,
         addTicketUrl,
       } = await response.json();
+      if (trialMode) {
+        tickets.forEach((ticket) => {
+          ticket.url = ticket.url.replace("dashboard", "trials");
+        });
+      }
+
       setTeamMembers(teamMembers);
       setTickets(tickets);
       setDescription(description);
@@ -72,25 +82,43 @@ function ProjectDash({ pID, projName }) {
           <>
             <ul className="nav">
               <li className="nav-item fs-4">
-                <a href={teamUrl} className="nav-link">
+                <a
+                  href={
+                    trialMode ? `/trials/project/manage_team/${pID}` : teamUrl
+                  }
+                  className="nav-link"
+                >
                   <AiOutlineUsergroupAdd className="fs-2" />
                   Manage Team
                 </a>
               </li>
               <li className="nav-item fs-4">
-                <a href={editUrl} className="nav-link">
+                <a
+                  href={trialMode ? `/trials/edit_project/${pID}` : editUrl}
+                  className="nav-link"
+                >
                   <AiOutlineEdit className="fs-2" />
                   Edit Project Details
                 </a>
               </li>
               <li className="nav-item fs-4">
-                <a href={addTicketUrl} className="nav-link">
+                <a
+                  href={
+                    trialMode
+                      ? `/trials/project/${pID}/add_ticket`
+                      : addTicketUrl
+                  }
+                  className="nav-link"
+                >
                   <AiOutlineAppstoreAdd className="fs-2" />
                   Add Ticket
                 </a>
               </li>
               <li className="nav-item fs-4">
-                <a href={orgUrl} className="nav-link">
+                <a
+                  href={trialMode ? "/trials/organization" : orgUrl}
+                  className="nav-link"
+                >
                   Back To Organization
                 </a>
               </li>

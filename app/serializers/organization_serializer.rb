@@ -17,7 +17,7 @@ class OrganizationSerializer < ActiveModel::Serializer
     }
     t_types = {
       "bug/errors" => 0,
-      "features requests" => 0,
+      "feature requests" => 0,
       "comments" => 0,
       "training/document requests" => 0
     }

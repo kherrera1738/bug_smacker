@@ -6,7 +6,7 @@ function TableRow({ row, headers }) {
       {headers.map((col, index) => {
         return (
           <td key={index} className="fs-4">
-            {col.isUrl ? (
+            {col.isUrl && row[col.val] !== "" ? (
               <a href={row[col.val]}>{col.placeholder}</a>
             ) : (
               row[col.val]

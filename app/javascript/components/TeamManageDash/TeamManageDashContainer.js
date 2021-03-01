@@ -3,7 +3,7 @@ import Loading from "../Loading";
 import TeamMemberForm from "./TeamMemberForm";
 import SearchTable from "../SearchTable";
 
-function RoleManageDash({ projID, orgID }) {
+function RoleManageDash({ projID, orgID, trialMode }) {
   const [isLoading, setIsLoading] = useState(true);
   const [teamMembers, setTeamMembers] = useState([]);
   const [positions, setPositions] = useState([]);
@@ -14,14 +14,24 @@ function RoleManageDash({ projID, orgID }) {
   ];
 
   function teamMembersUrl(projID) {
-    return `/team_members/project/${projID}`;
+    return trialMode
+      ? `/trials/project/manage_team/${projID}/team_members`
+      : `/team_members/project/${projID}`;
+  }
+
+  function positionsUrl(orgID) {
+    return trialMode
+      ? `/trials/project/manage_team/${orgID}/positions`
+      : `/positions/organization/${orgID}`;
   }
 
   async function addMember(e) {
     e.preventDefault();
     const uid = parseInt(userBar.current.value);
     if (projID && uid) {
-      const teamUrl = "/team_members.json";
+      const teamUrl = trialMode
+        ? "/trials/team_members.json"
+        : "/team_members.json";
       const data = {
         user_id: uid,
         project_id: projID,
@@ -54,7 +64,7 @@ function RoleManageDash({ projID, orgID }) {
       setTeamMembers(currentTeamMembers);
 
       // Get all positions
-      response = await fetch(`/positions/organization/${orgID}`);
+      response = await fetch(positionsUrl(orgID));
       const positions = await response.json();
       setPositions(positions);
     } catch (error) {

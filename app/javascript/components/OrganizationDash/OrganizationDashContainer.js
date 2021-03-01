@@ -14,7 +14,7 @@ function OrganizationDash({ orgID, orgName }) {
   const [editUrl, setEditUrl] = useState("");
   const projNameBar = useRef(null);
   const descriptionArea = useRef(null);
-  const { uid } = useGlobalContext();
+  const { uid, trialMode } = useGlobalContext();
   const projectHeaders = [
     { name: "Name", val: "name" },
     { name: "View", val: "url", isUrl: true, placeholder: "View Project" },
@@ -45,8 +45,15 @@ function OrganizationDash({ orgID, orgName }) {
       };
 
       try {
-        const response = await fetch(projectUrl, requestObject);
-        const newProject = await response.json();
+        if (trialMode) {
+          var newProject = {
+            name: projName,
+            url: "",
+          };
+        } else {
+          const response = await fetch(projectUrl, requestObject);
+          var newProject = await response.json();
+        }
         setProjects([...projects, newProject]);
       } catch (error) {
         console.log(error);
@@ -61,6 +68,11 @@ function OrganizationDash({ orgID, orgName }) {
     try {
       const response = await fetch(orgContentUrl(orgID));
       const { info, projects, manageRolesUrl, editUrl } = await response.json();
+      if (trialMode) {
+        projects.forEach((project) => {
+          project.url = project.url.replace("dashboard", "trials");
+        });
+      }
       setOrgInfo(info);
       setProjects(projects);
       setRolesUrl(manageRolesUrl);
@@ -84,21 +96,33 @@ function OrganizationDash({ orgID, orgName }) {
           <>
             <ul className="nav">
               <li className="nav-item fs-4">
-                <a href={rolesUrl} className="nav-link">
+                <a
+                  href={trialMode ? "/trials/manage_roles" : rolesUrl}
+                  className="nav-link"
+                >
                   <AiOutlineUsergroupAdd className="fs-2" />
                   Manage User Roles
                 </a>
               </li>
               <li className="nav-item fs-4">
-                <a href={editUrl} className="nav-link">
+                <a
+                  href={trialMode ? "/trials/edit_organization" : editUrl}
+                  className="nav-link"
+                >
                   <AiOutlineEdit className="fs-2" />
                   Edit Oganization Details
                 </a>
               </li>
               <li className="nav-item fs-4">
-                <a href={`/dashboard/${uid}`} className="nav-link">
-                  Back To Main Dashboard
-                </a>
+                {trialMode ? (
+                  <a href={"/pages/home"} className="nav-link">
+                    Back To Home
+                  </a>
+                ) : (
+                  <a href={`/dashboard/${uid}`} className="nav-link">
+                    Back To Main Dashboard
+                  </a>
+                )}
               </li>
             </ul>
             <hr />

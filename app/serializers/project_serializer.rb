@@ -3,7 +3,7 @@ class ProjectSerializer < ActiveModel::Serializer
   attributes :tickets, :description, :teamMembers, :manageTeamUrl, :organizationUrl, :editUrl, :addTicketUrl
 
   def manageTeamUrl
-    manage_team_dashboard_path(object.id)
+    object.id ? manage_team_dashboard_path(object.id) : nil
   end
 
   def organizationUrl
@@ -11,11 +11,11 @@ class ProjectSerializer < ActiveModel::Serializer
   end
 
   def editUrl
-    edit_project_path(object.id)
+    object.id ? edit_project_path(object.id) : nil
   end
 
   def addTicketUrl
-    add_ticket_path(object.id)
+    object.id ? add_ticket_path(object.id) : nil
   end
 
   def teamMembers

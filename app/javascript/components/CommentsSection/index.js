@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import SearchTable from "../SearchTable";
 import { useGlobalContext } from "../AppContext";
 
-function CommentsSection({ comments, tid }) {
+function CommentsSection({ comments, tid, trialMode }) {
   const [currentComments, setComments] = useState(comments);
   const commentBar = useRef(null);
   const { uid } = useGlobalContext();
@@ -14,7 +14,7 @@ function CommentsSection({ comments, tid }) {
 
   async function addComment(e) {
     e.preventDefault();
-    const commentUrl = `/comments.json`;
+    const commentUrl = trialMode ? "/trials/comments.json" : `/comments.json`;
     const data = {
       content: commentBar.current.value,
       ticket_id: tid,
