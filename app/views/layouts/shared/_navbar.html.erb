@@ -1,11 +1,18 @@
 <div id="mySidebar" class="sidebar" data-open="false">
-  <%= link_to 'Home', root_path %>
   <% if user_signed_in? %>
-    <%= link_to 'My Content', user_dashboard_path(current_user.id) %>
-    <%= link_to 'Organizations', organizations_path %>
-    <%= link_to 'Projects', projects_path %>
+    <%= link_to user_dashboard_path(current_user.id) do %>
+      <i class="bi bi-bar-chart-line"></i> My Dashboard
+    <% end %>
+    <%= link_to edit_user_registration_path(current_user.id) do %>
+      <i class="bi bi-person"></i> Profile
+    <% end %>
+    <%= link_to pages_help_path do %>
+      <i class="bi bi-question-circle"></i> Help
+    <% end %>
+    <hr>
     <%= link_to 'Sign Out', destroy_user_session_path, method: :delete %>
   <% else %>
+    <%= link_to 'Home', root_path %>
     <%= link_to 'Sign In', new_user_session_path %>
     <%= link_to 'Sign Up', new_user_registration_path %>
   <% end %>

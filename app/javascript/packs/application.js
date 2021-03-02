@@ -17,15 +17,15 @@ document.addEventListener("turbolinks:load", () => {
   function openNav() {
     const sidebar = document.getElementById("mySidebar");
     sidebar.dataset.open = "true";
-    sidebar.style.width = "250px";
-    // document.getElementById("main").style.marginLeft = "250px";
+    sidebar.style.left = "0";
+    // sidebar.style.width = "250px";
   }
 
   function closeNav() {
     const sidebar = document.getElementById("mySidebar");
     sidebar.dataset.open = "false";
-    sidebar.style.width = "0";
-    // document.getElementById("main").style.marginLeft = "0";
+    sidebar.style.left = "-250px";
+    // sidebar.style.width = "0";
   }
 
   function toggleNav() {
