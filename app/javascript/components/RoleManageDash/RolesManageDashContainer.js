@@ -27,7 +27,7 @@ function RoleManageDash({ orgID }) {
     const role = roleBar.current.value;
     const uid = parseInt(userBar.current.value);
     if (orgID && role && uid) {
-      const posUrl = "/positions.json";
+      const posUrl = trialMode ? "/trials/positions.json" : "/positions.json";
       const data = {
         role: role,
         filled_by_id: uid,
@@ -43,16 +43,8 @@ function RoleManageDash({ orgID }) {
       };
 
       try {
-        if (trialMode) {
-          const response = await fetch(posUrl, requestObject);
-          var newPosition = await response.json();
-        } else {
-          newPosition = {
-            name: userBar.current.innerHTML,
-            role: roleBar.current.value,
-          };
-        }
-
+        const response = await fetch(posUrl, requestObject);
+        var newPosition = await response.json();
         setPositions([...positions, newPosition]);
       } catch (error) {
         console.log(error);
