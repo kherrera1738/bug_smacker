@@ -11,11 +11,15 @@
                 as: :text,
                 input_html: { class: "form-input", rows: "4"},  
                 label_html: { class: "fs-3"} %>
-    <%= f.association :organization,
-                      as: :hidden %>
+    <% if !@trial_mode %>
+      <%= f.association :organization,
+                        as: :hidden %>
+    <% end %>
   </div>
 
-  <div class="form-actions">
-    <%= f.button :submit, class: "btn btn-outline-light btn-lg fs-3" %>
-  </div>
+  <% if !@trial_mode%>
+    <div class="form-actions">
+      <%= f.button :submit, class: "btn btn-outline-light btn-lg fs-3" %>
+    </div>
+  <% end %>
 <% end %>

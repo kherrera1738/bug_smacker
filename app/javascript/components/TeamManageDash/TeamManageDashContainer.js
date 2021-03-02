@@ -13,6 +13,7 @@ function RoleManageDash({ projID, orgID, trialMode }) {
     { name: "Role", val: "role" },
   ];
 
+  // Get team member/positions content from different url is this is a trial page
   function teamMembersUrl(projID) {
     return trialMode
       ? `/trials/project/manage_team/${projID}/team_members`
@@ -25,10 +26,12 @@ function RoleManageDash({ projID, orgID, trialMode }) {
       : `/positions/organization/${orgID}`;
   }
 
+  // Routine to add member to project
   async function addMember(e) {
     e.preventDefault();
     const uid = parseInt(userBar.current.value);
     if (projID && uid) {
+      // Change url if this is a trial page so changes do not save
       const teamUrl = trialMode
         ? "/trials/team_members.json"
         : "/team_members.json";

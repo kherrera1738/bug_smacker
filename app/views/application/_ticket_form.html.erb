@@ -1,0 +1,35 @@
+<%= simple_form_for(@ticket) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="form-inputs">
+    <%= f.input :title,
+                input_html: { class: "form-input"},  
+                label_html: { class: "fs-3"} %>
+    <%= f.input :description, 
+                as: :text,
+                input_html: { class: "form-input", rows: "3"},  
+                label_html: { class: "fs-3"} %>
+    <%= f.input :priority,
+                collection: ["low", "medium", "high"],
+                input_html: { class: "form-input"},  
+                label_html: { class: "fs-3"} %> 
+    <%= f.input :status,  
+                collection: ["new", "open", "in progress", "resolved", "additional information required"],
+                input_html: { class: "form-input"},  
+                label_html: { class: "fs-3"}  %>
+    <%= f.input :ticket_type,
+                collection: ["bug/errors", "feature requests", "comments", "training/document requests"], 
+                input_html: { class: "form-input"},  
+                label_html: { class: "fs-3"}  %>
+    <% if !@trial_mode %>
+      <input type="hidden" name="ticket[project_id]" id="ticket_project_id" value=<%= "#{@project.id}" %> >
+    <% end %>
+  </div>
+
+  <% if !@trial_mode %>
+    <div class="form-actions">
+      <%= f.button :submit, class: "btn btn-outline-light btn-lg fs-3" %>
+    </div>
+  <% end %>
+<% end %>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Chart, { scaleService } from "chart.js";
+import Chart from "chart.js";
 
 function DataGraph({
   dataset,
@@ -29,6 +29,7 @@ function DataGraph({
     "rgba(235, 221, 25)",
   ];
 
+  // Function to generate random colors for data points
   function dynamicColors() {
     var r = Math.floor(Math.random() * 255);
     var g = Math.floor(Math.random() * 255);
@@ -45,7 +46,7 @@ function DataGraph({
     };
   }
 
-  // If random colors option is on then generate one color for each label
+  // If random colors option is true, then generate one color for each label
   if (randomColor) {
     var colors = [];
     for (let i = 0; i < labels.length; i++) {
@@ -55,6 +56,7 @@ function DataGraph({
     backgroundColor = colors;
   }
 
+  // Config for chart.js instance
   const config = {
     type: graphType,
     data: {
@@ -71,6 +73,7 @@ function DataGraph({
     options: options,
   };
 
+  // When component is done loading, chart instance renders
   useEffect(() => {
     if (chartContainer && chartContainer.current) {
       const newChartInstance = new Chart(chartContainer.current, config);

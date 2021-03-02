@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Loading from "../Loading";
 import { useGlobalContext } from "../AppContext";
-import SearchTable from "../SearchTable";
-import AddOrgForm from "./AddOrgForm";
+import ContentSection from "./ContentSection";
 
 function UserDash() {
   const [isLoading, setIsLoading] = useState(true);
@@ -10,22 +9,12 @@ function UserDash() {
   const [projects, setProjects] = useState([]);
   const [positions, setPositions] = useState([]);
   const orgNameBar = useRef(null);
-  const projectHeaders = [
-    { name: "Name", val: "name" },
-    { name: "Organization", val: "organization" },
-    { name: "View", val: "url", isUrl: true, placeholder: "View Project" },
-  ];
-  const organizationHeaders = [
-    { name: "Name", val: "organization" },
-    { name: "Role", val: "role" },
-    { name: "Owned", val: "owned" },
-    { name: "View", val: "url", isUrl: true, placeholder: "View Organization" },
-  ];
 
   function userContentUrl(uid) {
     return `/dashboard/${uid}/main_content`;
   }
 
+  // Routine to add a new organization to user
   async function addOrg(e) {
     e.preventDefault();
     const orgName = orgNameBar.current.value;
@@ -55,6 +44,7 @@ function UserDash() {
     orgNameBar.current.value = "";
   }
 
+  // Get content for main dashboard
   async function fetchUserContent() {
     setIsLoading(true);
     try {
@@ -81,31 +71,12 @@ function UserDash() {
       {isLoading ? (
         <Loading />
       ) : (
-        <div className="container-fluid">
-          <div className="row justify-content-center text-white">
-            <div className="col-12 col-xl-8 col-xxl-6 mb-5">
-              <SearchTable
-                rows={positions}
-                headers={organizationHeaders}
-                pageSize={5}
-                title={"Organizations"}
-              />
-            </div>
-            <div className="col-12 col-xl-2 mb-3">
-              <AddOrgForm orgNameBar={orgNameBar} addOrg={addOrg} />
-            </div>
-          </div>
-          <div className="row justify-content-center text-white">
-            <div className="col-12 col-xl-10 col-xxl-8">
-              <SearchTable
-                rows={projects}
-                headers={projectHeaders}
-                pageSize={5}
-                title={"Projects"}
-              />
-            </div>
-          </div>
-        </div>
+        <ContentSection
+          positions={positions}
+          orgNameBar={orgNameBar}
+          addOrg={addOrg}
+          projects={projects}
+        />
       )}
     </>
   );

@@ -1,4 +1,5 @@
 class TrialsController < ApplicationController
+  before_action :set_trial_mode
   skip_before_action :verify_authenticity_token 
   
   # Organization Actions
@@ -11,6 +12,7 @@ class TrialsController < ApplicationController
   # GET /trials/edit_organization
   def edit_org
     @organization = Organization.first
+    render 'organizations/edit'
   end
 
   # Role Management Actions
@@ -52,11 +54,13 @@ class TrialsController < ApplicationController
   def add_ticket
     @project = Organization.first.projects.find_by(id: params[:id])
     @ticket = Ticket.new
+    render 'projects/add_ticket'
   end
 
   # GET trials/edit_project/1
   def edit_proj
     @project = Organization.first.projects.find_by(id: params[:id])
+    render "projects/edit"
   end
 
   # Project Management Actions
@@ -102,6 +106,7 @@ class TrialsController < ApplicationController
   # GET trials/ticket/1/edit
   def edit_ticket
     @ticket = Ticket.find_by(id: params[:id])
+    render 'tickets/edit'
   end
 
   # POST trials/comments
@@ -112,5 +117,10 @@ class TrialsController < ApplicationController
       createdAt: Time.now.strftime("%b-%d-%Y, %I:%M %p")
     } 
   end
+
+  private 
+    def set_trial_mode
+      @trial_mode = true
+    end
 
 end

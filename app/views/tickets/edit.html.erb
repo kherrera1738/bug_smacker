@@ -5,52 +5,15 @@
       <hr>
       <div class="ticket-card">
         <div class="px-4 py-3 ticket-card-body">
-          <%= simple_form_for @ticket, html: {autocomplete: 'off'} do |f| %>
-            <%= f.error_notification %>
-            <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-
-            <div class="form-inputs">
-              <%= f.input :title, 
-                          required: false,
-                          input_html: { class: "form-input", value: nil },  
-                          label_html: { class: "fs-3"} %>
-              <%= f.input :description, 
-                          as: :text,
-                          required: false,
-                          input_html: { class: "form-input", rows: "3", value: nil },  
-                          label_html: { class: "fs-3"} %>
-              <%= f.input :priority,
-                          required: false,
-                          collection: ["low", "medium", "high"],
-                          include_blank: '', 
-                          selected: [''],
-                          input_html: { class: "form-input", value: nil },  
-                          label_html: { class: "fs-3"} %> 
-              <%= f.input :status,                 
-                          required: false,  
-                          collection: ["new", "open", "in progress", "resolved", "additional information required"],
-                          include_blank: '', 
-                          selected: [''],               
-                          input_html: { class: "form-input", value: nil },  
-                          label_html: { class: "fs-3"}  %>
-              <%= f.input :ticket_type,
-                          required: false,
-                          collection: ["bug/errors", "feature requests", "comments", "training/document requests"], 
-                          include_blank: '', 
-                          selected: [''],                  
-                          input_html: { class: "form-input", value: nil },  
-                          label_html: { class: "fs-3"}  %>
-              <%= f.association :project, as: :hidden %>
-            </div>
-
-            <div class="form-actions">
-              <%= f.button :submit, class: "btn btn-outline-light btn-lg fs-3" %>
-            </div>
-          <% end %>
+          <%= render "edit_ticket", ticket: @ticket %>
         </div>
       </div>
       <div class="mt-2">
-        <%= link_to 'Back', ticket_dashboard_path(@ticket.id), class: "fs-3 mx-3" %>
+        <% if @trial_mode %>
+          <%= link_to 'Back', trial_ticket_path(@ticket.id), class: "fs-3 mx-3" %>
+        <% else %>
+          <%= link_to 'Back', ticket_dashboard_path(@ticket.id), class: "fs-3 mx-3" %>
+        <% end %>
       </div>
     </div>
   </div>

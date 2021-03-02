@@ -1,6 +1,6 @@
 import React, { useReducer, useEffect } from "react";
 import TableRow from "./TableRow";
-import Footer from "../Footer";
+import Footer from "./Footer";
 import TableHeader from "./TableHeader";
 
 const initalState = {

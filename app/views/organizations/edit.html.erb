@@ -5,11 +5,15 @@
       <hr>
       <div class="ticket-card">
         <div class="px-4 py-3 ticket-card-body">
-          <%= render 'form', organization: @organization %>
+          <%= render 'org_form', organization: @organization %>
         </div>
       </div>
       <div class="mt-2">
-        <%= link_to 'Back', organization_dashboard_path(@organization.id), class: "fs-3 mx-3" %>
+        <% if @trial_mode %>
+          <%= link_to 'Back', trial_organization_path, class: "fs-3 mx-3" %>
+        <% else %>
+          <%= link_to 'Back', organization_dashboard_path(@organization.id), class: "fs-3 mx-3" %>
+        <% end%>
       </div>
     </div>
   </div>

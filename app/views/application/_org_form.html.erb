@@ -7,10 +7,14 @@
     <%= f.input :name,
                 input_html: { class: "form-input", value: nil },  
                 label_html: { class: "fs-3"} %>
-    <%= f.input :owner_id, :as => :hidden, :input_html => { :value =>  current_user.id } %>
+    <% if !@trial_mode %>
+      <%= f.input :owner_id, :as => :hidden, :input_html => { :value =>  current_user.id } %>
+    <% end %>
   </div>
 
-  <div class="form-actions">
-    <%= f.button :submit, class: "btn btn-outline-light btn-lg fs-3" %>
-  </div>
+  <% if !@trial_mode %>
+    <div class="form-actions">
+      <%= f.button :submit, class: "btn btn-outline-light btn-lg fs-3" %>
+    </div>
+  <% end %>
 <% end %>

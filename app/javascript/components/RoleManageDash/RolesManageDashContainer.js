@@ -16,17 +16,21 @@ function RoleManageDash({ orgID }) {
     { name: "Role", val: "role" },
   ];
 
+  // Get users from different url if this is a trial page
   function positionsUrl(orgID) {
     return trialMode
       ? "/trials/manage_roles/content"
       : `/positions/organization/${orgID}`;
   }
 
+  // Routine to add roles to organization
   async function addRole(e) {
     e.preventDefault();
     const role = roleBar.current.value;
     const uid = parseInt(userBar.current.value);
     if (orgID && role && uid) {
+      // Post to different url if this is a trial page
+      // Comments should not save if it is a trial page
       const posUrl = trialMode ? "/trials/positions.json" : "/positions.json";
       const data = {
         role: role,
