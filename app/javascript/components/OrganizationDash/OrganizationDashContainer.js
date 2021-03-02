@@ -95,7 +95,7 @@ function OrganizationDash({ orgID, orgName }) {
       {isLoading ? (
         <Loading />
       ) : (
-        <div>
+        <div className="container-fluid">
           <StatsDashboard {...orgData.info} />
           <ProjectsSection
             orgData={orgData}

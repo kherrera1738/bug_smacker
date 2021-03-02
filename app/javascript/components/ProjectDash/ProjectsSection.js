@@ -27,7 +27,7 @@ function ProjectsSection({ description, tickets, teamMembers }) {
         </div>
       </div>
       <div className="row justify-content-center text-white">
-        <div className="col-12 col-lg-7 col-xl-7 col-xxl-5 mb-4">
+        <div className="col-12 col-lg-7 col-xl-6 col-xxl-5 mb-4">
           <SearchTable
             rows={tickets}
             headers={ticketHeaders}
@@ -35,7 +35,7 @@ function ProjectsSection({ description, tickets, teamMembers }) {
             title={"Tickets"}
           />
         </div>
-        <div className="col-12 col-lg-4 col-xl-3 col-xxl-3 mb-4">
+        <div className="col-12 col-lg-4 col-xl-4 col-xxl-3 mb-4">
           <SearchTable
             rows={teamMembers}
             headers={roleHeaders}
