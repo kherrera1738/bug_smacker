@@ -22,6 +22,13 @@
                 collection: ["bug/errors", "feature requests", "comments", "training/document requests"], 
                 input_html: { class: "form-input"},  
                 label_html: { class: "fs-3"}  %>
+    <%= f.association :assigned_dev,
+                required: false,
+                collection: @project.team_members,
+                value_method: :user_id,
+                label_method: :user_name,
+                input_html: { class: "form-input"},  
+                label_html: { class: "fs-3"} %>
     <% if !@trial_mode %>
       <input type="hidden" name="ticket[project_id]" id="ticket_project_id" value=<%= "#{@project.id}" %> >
     <% end %>

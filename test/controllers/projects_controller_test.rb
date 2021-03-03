@@ -17,11 +17,6 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should get new" do
-    get new_project_url
-    assert_response :success
-  end
-
   test "should create project" do
     assert_difference('Project.count') do
       post projects_url, params: { project: { description: "proj4", name: "proj4", organization_id: @org1.id } }
@@ -42,7 +37,7 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
 
   test "should update project" do
     patch project_url(@project), params: { project: { description: @project.description, name: @project.name, organization_id: @project.organization_id } }
-    assert_redirected_to project_url(@project)
+    assert_redirected_to project_dashboard_url(@project)
   end
 
   test "should destroy project" do
@@ -57,16 +52,6 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
     patch project_url(@project), params: { project: { description: @project.description, name: @project.name, organization_id: @org2.id } }
     @project.reload
     assert_equal @org1.id, @project.organization_id
-  end
-
-  test "only users who are part of organization can access resources" do
-    sign_out @user
-    get project_url(@project)
-    assert_redirected_to new_user_session_url
-
-    sign_in @johnny
-    get project_url(@project)
-    assert_redirected_to root_url
   end
 
   test "only admins can create project" do
@@ -98,5 +83,13 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
     patch project_url(@project), params: { project: { description: @project.description, name: "b", organization_id: @project.organization_id } }
     @project.reload
     assert_equal "b", @project.name
+  end
+
+  test "should add organization owner when created" do
+    assert_difference('TeamMember.count') do
+      post projects_url, params: { project: { description: "proj4", name: "proj4", organization_id: @org1.id } }
+    end
+
+    assert Project.find_by(name: "proj4").team_members.where(user_id: @org1.owner_id).exists? 
   end
 end

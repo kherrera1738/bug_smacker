@@ -106,6 +106,7 @@ class TrialsController < ApplicationController
   # GET trials/ticket/1/edit
   def edit_ticket
     @ticket = Ticket.find_by(id: params[:id])
+    @project = @ticket.project
     render 'tickets/edit'
   end
 

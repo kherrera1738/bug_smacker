@@ -36,6 +36,7 @@ class ProjectsController < ApplicationController
 
     respond_to do |format|
       if is_organization_admin? and @project.save
+        @project.team_members.create(user_id: @project.organization.owner_id)
         format.html { redirect_to @project, notice: "Project was successfully created." }
         format.json { render json: {
           name: @project.name,

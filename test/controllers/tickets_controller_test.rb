@@ -25,7 +25,7 @@ class TicketsControllerTest < ActionDispatch::IntegrationTest
       post tickets_url, params: { ticket: { description: @ticket.description, priority: @ticket.priority, project_id: @ticket.project_id, status: @ticket.status, ticket_type: @ticket.ticket_type, title: @ticket.title } }
     end
 
-    assert_redirected_to ticket_url(Ticket.last)
+    assert_redirected_to ticket_dashboard_url(Ticket.last)
   end
 
   test "should show ticket" do
@@ -40,7 +40,7 @@ class TicketsControllerTest < ActionDispatch::IntegrationTest
 
   test "should update ticket" do
     patch ticket_url(@ticket), params: { ticket: { description: @ticket.description, priority: @ticket.priority, project_id: @ticket.project_id, status: @ticket.status, ticket_type: @ticket.ticket_type, title: @ticket.title } }
-    assert_redirected_to ticket_url(@ticket)
+    assert_redirected_to ticket_dashboard_url(@ticket)
   end
 
   test "should destroy ticket" do
@@ -82,7 +82,7 @@ class TicketsControllerTest < ActionDispatch::IntegrationTest
     assert_equal @dev.id, @ticket.assigned_dev_id
   end
 
-  test "should allow only team members to edit type, status, and priority parameters" do
+  test "type status and priority edits" do
     sign_out @owner
     
     # non team member should not be allowed to edit
@@ -96,11 +96,17 @@ class TicketsControllerTest < ActionDispatch::IntegrationTest
     # team member can edit parameters
     sign_out @dev2
     sign_in @dev
-    patch ticket_url(@ticket), params: { ticket: { status: "open", priority: "low", ticket_type: "comments" } }
+    assert_difference("History.count", 3) do
+      patch ticket_url(@ticket), params: { ticket: { status: "open", priority: "low", ticket_type: "comments", assigned_dev_id: nil } }
+    end
     @ticket.reload
     assert_equal "open", @ticket.status
     assert_equal "low", @ticket.priority
     assert_equal "comments", @ticket.ticket_type
+
+    assert History.where(old_value: "new", new_value: "open", ticket_id: @ticket.id).exists?
+    assert History.where(old_value: "high", new_value: "low", ticket_id: @ticket.id).exists?
+    assert History.where(old_value: "feature requests", new_value: "comments", ticket_id: @ticket.id).exists?
   end
 
   test "should only allow assigned_dev to be from team members" do

@@ -22,12 +22,14 @@ class TicketsController < ApplicationController
 
   # GET /tickets/1/edit
   def edit
+    @ticket = Ticket.find_by(id: params[:id])
+    @project = @ticket.project
   end
 
   # POST /tickets or /tickets.json
   def create
     @ticket = Ticket.new(ticket_params)
-
+    @ticket.submitted_by = current_user
     respond_to do |format|
       if @ticket.save
         format.html { redirect_to ticket_dashboard_path(@ticket), notice: "Ticket was successfully created." }
@@ -43,14 +45,18 @@ class TicketsController < ApplicationController
   # PATCH/PUT /tickets/1 or /tickets/1.json
   def update
     respond_to do |format|
-      old_value, new_value, change_type, val = find_changes
-      if ok_to_edit? and @ticket.update_attribute(val.to_s, new_value)  
-        old_value ||= "nil" 
-        new_value ||= "nil"
-        @ticket.histories.create(changed_by_id: current_user.id, old_value: old_value, new_value: new_value, change_type: change_type)
+      find_changes
+      
+      # Prevent assigned dev from being empty string on update
+      if params[:ticket][:assigned_dev_id].blank?
+        params[:ticket][:assigned_dev_id] = nil
+      end
+      
+      if ok_to_edit? and save_histories and @ticket.update(ticket_params) 
         format.html { redirect_to ticket_dashboard_path(@ticket.id), notice: "Ticket was successfully updated." }
         format.json { render :show, status: :ok, location: @ticket }
       else
+        p @ticket.errors
         flash[:alert] = "Could not update ticket."
         format.html { redirect_to ticket_dashboard_path(@ticket.id) }
         format.json { render json: @ticket.errors, status: :unprocessable_entity }
@@ -87,7 +93,7 @@ class TicketsController < ApplicationController
 
     # Only allow assigned dev to be changed by PM or Admin if it is present
     def can_edit_dev? 
-      (assigned_dev_id = params[:ticket][:assigned_dev_id]).nil? or (is_admin_or_pm? and is_team_member?(assigned_dev_id))
+      (assigned_dev_id = params[:ticket][:assigned_dev_id]).blank? or (is_admin_or_pm? and is_team_member?(assigned_dev_id))
     end
 
     # Team members can edit status, type, or priority 
@@ -121,32 +127,38 @@ class TicketsController < ApplicationController
     end
 
     def find_changes
-      ticket_params = params[:ticket]
-      if !ticket_params[:assigned_dev_id].blank?
-        change_type = "assigned dev"
-        val = :assigned_dev_id
-      elsif !ticket_params[:submitted_by_id].blank?
-        change_type = "submitted by"
-        val = :submitted_by_id
-      elsif !ticket_params[:priority].blank?
-        change_type = "priority"
-        val = :priority
-      elsif !ticket_params[:ticket_type].blank?
-        change_type = "ticket type"
-        val = :ticket_type
-      elsif !ticket_params[:status].blank?
-        change_type = "status"
-        val = :status
-      elsif !ticket_params[:title].blank?
-        change_type = "title"
-        val = :title
-      else
-        change_type = "description"
-        val = :description
-      end
+      change_types = {
+        assigned_dev_id: "assigned dev",
+        priority: "priority",
+        ticket_type: "ticket type",
+        status: "status",
+        title: "title",
+        description: "description"
+      }
 
-      old_value = @ticket.send(val)
-      new_value = ticket_params[val]
-      return [old_value, new_value, change_type.to_s, val]
+      @histories = []
+
+      ticket_params.each do | param, value |
+        if !value.blank? and @ticket.send(param) != value
+          old_value = @ticket.send(param) || "None"
+          new_value = value || "None"
+          p param
+          p change_types[param.to_sym]
+          @histories.push(@ticket.histories.build(changed_by_id: current_user.id, 
+                                    old_value: old_value, 
+                                    new_value: new_value, 
+                                    change_type: change_types[param.to_sym]))
+        end
+      end
+    end
+
+    def save_histories
+      @histories.each do |h|
+        if !h.save
+          p h.errors
+          return false
+        end
+      end
+      return true
     end
 end
