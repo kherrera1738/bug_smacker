@@ -56,7 +56,6 @@ class TicketsController < ApplicationController
         format.html { redirect_to ticket_dashboard_path(@ticket.id), notice: "Ticket was successfully updated." }
         format.json { render :show, status: :ok, location: @ticket }
       else
-        p @ticket.errors
         flash[:alert] = "Could not update ticket."
         format.html { redirect_to ticket_dashboard_path(@ticket.id) }
         format.json { render json: @ticket.errors, status: :unprocessable_entity }
@@ -139,11 +138,16 @@ class TicketsController < ApplicationController
       @histories = []
 
       ticket_params.each do | param, value |
-        if !value.blank? and @ticket.send(param) != value
-          old_value = @ticket.send(param) || "None"
-          new_value = value || "None"
-          p param
-          p change_types[param.to_sym]
+        if !value.blank? and @ticket.send(param).to_s != value
+
+          if param == "assigned_dev_id"
+            new_value = User.find_by(id: value).name
+            old_value = @ticket.send(param) && User.find_by(id: @ticket.send(param)).name 
+          end
+
+          new_value ||= value || "None"
+          old_value ||= @ticket.send(param) || "None"
+
           @histories.push(@ticket.histories.build(changed_by_id: current_user.id, 
                                     old_value: old_value, 
                                     new_value: new_value, 

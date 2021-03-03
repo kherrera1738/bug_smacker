@@ -154,4 +154,40 @@ class TicketsControllerTest < ActionDispatch::IntegrationTest
     @ticket.reload
     assert_equal projects(:proj1).id, @ticket.project_id
   end
+
+  test "should not create history if params are the same" do
+    assert_difference('History.count') do
+      patch ticket_url(@ticket), params: { ticket: { assigned_dev_id: @owner.id } }
+    end
+
+    @ticket.reload
+
+    assert_no_difference("History.count") do
+      patch ticket_url(@ticket), params: { ticket: { status: @ticket.status, 
+                                                    priority: @ticket.priority, 
+                                                    ticket_type: @ticket.ticket_type, 
+                                                    assigned_dev_id: @ticket.assigned_dev_id } }
+    end
+  end
+
+  test "assigned dev history should save names not ids" do
+    @ticket.assigned_dev = @dev
+    @ticket.save
+
+    assert_difference('History.count') do
+      patch ticket_url(@ticket), params: { ticket: { assigned_dev_id: @owner.id } }
+    end
+
+    history = History.last
+    assert_equal @dev.name, history.old_value
+    assert_equal @owner.name, history.new_value
+
+    assert_difference('History.count') do
+      patch ticket_url(@ticket), params: { ticket: { assigned_dev_id: @dev.id } }
+    end
+
+    history = History.last
+    assert_equal @owner.name, history.old_value
+    assert_equal @dev.name, history.new_value
+  end
 end
