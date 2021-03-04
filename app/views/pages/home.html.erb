@@ -3,45 +3,53 @@
     <h1 class="text-light">Welcome</h1>
     <p class="lead">This is the home page for the rails issue tracker where you'll find tools for managing your software's tickets, bugs, and issues.</p>
     <p class="lead">Sign up for an account or feel free to check out one of the trail accounts to preview the system. </p>
-    <button class="btn btn-primary"> 
-      <span class="fs-2">Sign up for an account</span> 
-    </button>
-    <a href=<%= trial_organization_path(1) %>>
+    <%= link_to new_user_registration_path do %>
+      <button class="btn btn-primary"> 
+        <span class="fs-2">Sign up for an account</span> 
+      </button>
+    <% end %>
+    <%= link_to trial_organization_path(1) do %>
       <button class="btn btn-dark"> 
         <span class="fs-2">Use a trial account</span> 
       </button>
-    </a>
+    <% end %>
   </div>
 </div>
 <div class="container pt-5">
   <div class="row">
     <div class="col-md-4 mb-3 d-flex align-items-stretch">
       <div class="card">
-        <%= image_tag "sample-thumbnail.svg" %>
-        <div class="card-body">
-          <h3 class="card-title my-3">Create Groups and Projects</h3>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <button href="#" class="btn btn-primary my-3 btn-lg">Check out admin account</button>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4 mb-3 d-flex align-items-stretch">
-      <div class="card">
-        <%= image_tag "sample-thumbnail.svg" %>
+        <%= image_tag "ticketDash.png" %>
         <div class="card-body">
           <h3 class="card-title my-3">Real Time Data on Tickets</h3>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <button href="#" class="btn btn-primary my-3 btn-lg"> Take a look at dashboard </button>
+          <p class="card-text">Look at ticket history, comment on tickets, and see all updated information on the status of a ticket.</p>
+          <%= link_to trial_ticket_path(1) do %> 
+            <button class="btn btn-primary my-3 btn-lg"> Take a look at ticket page </button>
+          <% end %>
         </div>
       </div>
     </div>
     <div class="col-md-4 mb-3 d-flex align-items-stretch">
       <div class="card">
-        <%= image_tag "sample-thumbnail.svg" %>
+        <%= image_tag "dashboard.png" %>
         <div class="card-body">
-          <h3 class="card-title my-3">Coordinate Easily with Team Members</h3>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <button href="#" class="btn btn-primary my-3 btn-lg"> Checkout ticket system </button>
+          <h3 class="card-title my-3">Create Groups and Projects</h3>
+          <p class="card-text">Have the ability to create groups/organizations, project pages, and assignable members for each project. </p>
+          <%= link_to trial_organization_path(1) do %>
+            <button class="btn btn-primary my-3 btn-lg">Checkout group dashboard</button>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-3 d-flex align-items-stretch">
+      <div class="card">
+        <%= image_tag "roleManagement.png" %>
+        <div class="card-body">
+          <h3 class="card-title my-3">Coordinate Group Members and Teams</h3>
+          <p class="card-text">Assign roles to each user, assign tickets to users, and manage who has permission to work on each project. </p>
+          <%= link_to trials_manage_roles_path do %>
+            <button class="btn btn-primary my-3 btn-lg"> View role management system </button>
+          <% end %>
         </div>
       </div>
     </div>
