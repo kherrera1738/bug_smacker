@@ -129,14 +129,16 @@ function SearchTable({ rows, headers, pageSize, title }) {
         </form>
       </div>
       <div className="ticket-card-body">
-        <table className="table table-hover fs-3 mb-0">
-          <TableHeader headers={headers} state={state} dispatch={dispatch} />
-          <tbody>
-            {getrows().map((row, index) => {
-              return <TableRow row={row} headers={headers} key={index} />;
-            })}
-          </tbody>
-        </table>
+        <div className="table-responsive">
+          <table className="table table-hover fs-3 mb-0">
+            <TableHeader headers={headers} state={state} dispatch={dispatch} />
+            <tbody>
+              {getrows().map((row, index) => {
+                return <TableRow row={row} headers={headers} key={index} />;
+              })}
+            </tbody>
+          </table>
+        </div>
         <Footer state={state} dispatch={dispatch} />
       </div>
     </div>
