@@ -13,7 +13,9 @@ function OrganizationDash({ orgID, orgName }) {
   const { uid, trialMode } = useGlobalContext();
 
   function orgContentUrl(orgID) {
-    return `/organizations/${orgID}.json`;
+    return trialMode
+      ? `/trials/organization.json`
+      : `/organizations/${orgID}.json`;
   }
 
   // Routine to add a new project to data base and update projects table

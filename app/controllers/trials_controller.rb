@@ -4,9 +4,12 @@ class TrialsController < ApplicationController
   
   # Organization Actions
 
-  # GET /trials/organization/1
+  # GET /trials/organization
   def org_dashboard
-    @organization = Organization.first
+    respond_to do |format|
+      format.html { @organization = Organization.first }
+      format.json { render json: Organization.first }
+    end
   end
 
   # GET /trials/edit_organization

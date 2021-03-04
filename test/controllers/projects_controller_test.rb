@@ -12,6 +12,36 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
     sign_in @user
   end
 
+  test "should show project" do
+    get project_url(@project)
+    json_response = ActiveSupport::JSON.decode response.body
+
+    # Check for correct section
+    assert ["tickets", "description", "teamMembers", "teamUrl", 
+            "orgUrl", "editUrl", "addTicketUrl"].all? { |key| json_response.key? key }
+    assert_equal "MyText", json_response["description"]
+    assert_equal manage_team_dashboard_path(@project), json_response["teamUrl"]
+    assert_equal organization_dashboard_path(@project.organization), json_response["orgUrl"]
+    assert_equal edit_project_path(@project), json_response["editUrl"]
+    assert_equal add_ticket_path(@project), json_response["addTicketUrl"]
+
+    # Check tickets 
+    tickets = json_response["tickets"]
+    assert_equal 1, tickets.length
+    ticket = tickets[0] 
+    assert "t1", ticket["title"]
+    assert "high", ticket["priority"]
+    assert "new", ticket["status"]
+    assert "feature requests", ticket["type"]
+    assert ticket_dashboard_path(@project.tickets.first), ticket["url"]
+
+    # Check team members
+    assert_equal [{"name"=>"val", "email"=>"val@example.com", "role"=>"PM"}, 
+                  {"name"=>"vick", "email"=>"vick@example.com", "role"=>"Dev"}, 
+                  {"name"=>"kev", "email"=>"kev@example.com", "role"=>"Admin"}],
+                  json_response["teamMembers"]
+  end
+
   test "should create project" do
     assert_difference('Project.count') do
       post projects_url, params: { project: { description: "proj4", name: "proj4", organization_id: @org1.id } }
@@ -32,6 +62,8 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
 
   test "should update project" do
     patch project_url(@project), params: { project: { description: @project.description, name: @project.name, organization_id: @project.organization_id } }
+  
+    assert_redirected_to project_dashboard_path(@project)
   end
 
   test "should destroy project" do

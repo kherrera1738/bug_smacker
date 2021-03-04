@@ -1,7 +1,12 @@
 class OrganizationsController < ApplicationController
-  before_action :set_organization, only: [ :edit, :update, :destroy ]
+  before_action :set_organization, only: [ :show, :edit, :update, :destroy ]
   before_action :authenticate_user!, except: [ :index ]
   skip_before_action :verify_authenticity_token, only: [ :create ] 
+
+  # GET /Organizations/1
+  def show
+    render json: @organization
+  end
 
   # GET /organizations/new
   def new

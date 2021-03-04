@@ -44,11 +44,11 @@ Rails.application.routes.draw do
   resources :tickets, except: [ :index, :new ]
   resources :team_members, except: [ :index, :show, :new ]
   get 'team_members/project/:id', to: 'team_members#index_team_members'
-  resources :projects, except: [ :index, :show, :new ]
+  resources :projects, except: [ :index, :new ]
   get 'projects/:id/add_ticket', to: 'projects#add_ticket', as: 'add_ticket'
   resources :positions, only: [ :create, :update, :destroy ]
   get 'positions/organization/:id', to: 'positions#index_org_pos', as: 'index_org_pos'
-  resources :organizations, except: [ :index, :show, :new ]
+  resources :organizations, except: [ :index, :new ]
   devise_for :users, controllers: {
     registrations: 'registrations',
     omniauth_callbacks: 'users/omniauth_callbacks'
