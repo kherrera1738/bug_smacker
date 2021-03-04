@@ -10,16 +10,6 @@ class TicketsControllerTest < ActionDispatch::IntegrationTest
     sign_in @owner
   end
 
-  test "should get index" do
-    get tickets_url
-    assert_response :success
-  end
-
-  test "should get new" do
-    get new_ticket_url
-    assert_response :success
-  end
-
   test "should create ticket" do
     assert_difference('Ticket.count') do
       post tickets_url, params: { ticket: { description: @ticket.description, priority: @ticket.priority, project_id: @ticket.project_id, status: @ticket.status, ticket_type: @ticket.ticket_type, title: @ticket.title } }
@@ -54,11 +44,11 @@ class TicketsControllerTest < ActionDispatch::IntegrationTest
   test "should be logged in to view resources" do
     sign_out @owner
 
-    get tickets_url
+    get ticket_url(Ticket.last)
     assert_redirected_to new_user_session_url
 
     sign_in @owner
-    get tickets_url
+    get ticket_url(Ticket.last)
     assert_response :success
   end
 

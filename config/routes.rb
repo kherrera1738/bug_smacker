@@ -35,20 +35,20 @@ Rails.application.routes.draw do
   get 'trials/ticket/:id/edit', to: 'trials#edit_ticket'
   post 'trials/comments', to: 'trials#comments'
   
+  # Static pages
   get 'pages/home'
   get 'pages/help'
   get 'pages/about'
   
-  resources :comments
-  resources :histories
-  resources :tickets
-  resources :team_members
+  resources :comments, only: [ :create, :update, :destroy ]
+  resources :tickets, except: [ :index, :new ]
+  resources :team_members, except: [ :index, :show, :new ]
   get 'team_members/project/:id', to: 'team_members#index_team_members'
-  resources :projects
+  resources :projects, except: [ :index, :show, :new ]
   get 'projects/:id/add_ticket', to: 'projects#add_ticket', as: 'add_ticket'
-  resources :positions
-  get 'positions/organization/:id', to: 'positions#index_org_pos'
-  resources :organizations
+  resources :positions, only: [ :create, :update, :destroy ]
+  get 'positions/organization/:id', to: 'positions#index_org_pos', as: 'index_org_pos'
+  resources :organizations, except: [ :index, :show, :new ]
   devise_for :users, controllers: {
     registrations: 'registrations',
     omniauth_callbacks: 'users/omniauth_callbacks'

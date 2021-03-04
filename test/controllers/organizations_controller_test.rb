@@ -9,27 +9,17 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
     sign_in @user
   end
 
-  test "should get index" do
-    get organizations_url
-    assert_response :success
-  end
-
-  test "should get new" do
-    get new_organization_url
-    assert_response :success
-  end
-
   test "should create organization" do
     assert_difference('Organization.count') do
       post organizations_url, params: { organization: { name: "org3", owner_id: @organization.owner_id } }
     end
 
-    assert_redirected_to organization_url(Organization.last)
-  end
+    json_response = ActiveSupport::JSON.decode response.body
+    assert_equal "org3", json_response["organization"]
+    assert_equal "Admin", json_response["role"]
+    assert_equal organization_dashboard_path(Organization.last.id), json_response["url"]
+    assert_equal "True", json_response["owned"]
 
-  test "should show organization" do
-    get organization_url(@organization)
-    assert_response :success
   end
 
   test "should get edit" do
@@ -39,7 +29,7 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
 
   test "should update organization" do
     patch organization_url(@organization), params: { organization: { name: @organization.name, owner_id: @organization.owner_id } }
-    assert_redirected_to organization_url(@organization)
+    assert_redirected_to organization_dashboard_url(@organization)
   end
 
   test "should destroy organization" do

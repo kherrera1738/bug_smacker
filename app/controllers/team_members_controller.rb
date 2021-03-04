@@ -1,25 +1,11 @@
 class TeamMembersController < ApplicationController
-  before_action :set_team_member, only: [ :show, :edit, :update, :destroy ]
-  before_action :authenticate_user!, only: [ :show, :edit, :update, :destroy ]
+  before_action :set_team_member, only: [ :edit, :update, :destroy ]
+  before_action :authenticate_user!, only: [ :edit, :update, :destroy ]
   skip_before_action :verify_authenticity_token, only: [ :create ] 
-
-  # GET /team_members or /team_members.json
-  def index
-    @team_members = TeamMember.all
-  end
 
   # GET /team_members/project/1
   def index_team_members
     render json: TeamMember.where(project_id: params[:id])
-  end
-
-  # GET /team_members/1 or /team_members/1.json
-  def show
-  end
-
-  # GET /team_members/new
-  def new
-    @team_member = TeamMember.new
   end
 
   # GET /team_members/1/edit
@@ -29,26 +15,20 @@ class TeamMembersController < ApplicationController
   # POST /team_members or /team_members.json
   def create
     @team_member = TeamMember.new(team_member_params)
-    respond_to do |format|
       if is_admin_or_pm? and added_user_is_part_of_organization? and @team_member.save
-        format.html { redirect_to @team_member, notice: "Team member was successfully created." }
-        format.json { render json: @team_member }
+        render json: @team_member
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @team_member.errors, status: :unprocessable_entity }
+        render json: @team_member.errors, status: :unprocessable_entity 
       end
-    end
   end
 
   # PATCH/PUT /team_members/1 or /team_members/1.json
   def update
     respond_to do |format|
       if @team_member.update(team_member_params)
-        format.html { redirect_to @team_member, notice: "Team member was successfully updated." }
-        format.json { render :show, status: :ok, location: @team_member }
+        render :show, status: :ok, location: @team_member
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @team_member.errors, status: :unprocessable_entity }
+        render json: @team_member.errors, status: :unprocessable_entity
       end
     end
   end
@@ -57,8 +37,7 @@ class TeamMembersController < ApplicationController
   def destroy
     @team_member.destroy
     respond_to do |format|
-      format.html { redirect_to team_members_url, notice: "Team member was successfully destroyed." }
-      format.json { head :no_content }
+      head :no_content 
     end
   end
 

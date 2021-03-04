@@ -1,26 +1,8 @@
 class ProjectsController < ApplicationController
-  before_action :set_project, only: [ :show, :edit, :update, :destroy, :add_ticket ]
+  before_action :set_project, only: [ :edit, :update, :destroy, :add_ticket ]
   before_action :authenticate_user!, only: [ :edit, :update, :destroy, :add_ticket ]
-  before_action :is_part_of_organization?, only: [ :show, :edit, :update, :destroy, :add_ticket ]
+  before_action :is_part_of_organization?, only: [ :edit, :update, :destroy, :add_ticket ]
   skip_before_action :verify_authenticity_token, only: [ :create ] 
-
-  # GET /projects or /projects.json
-  def index
-    @projects = Project.all
-  end
-
-  # GET /projects/1 or /projects/1.json
-  def show
-    respond_to do |format|
-      format.html
-      format.json { render json: @project}
-    end
-  end
-
-  # GET /projects/new
-  def new
-    @project = Project.new
-  end
 
   # Get /project/1/add_ticket
   def add_ticket
@@ -34,19 +16,15 @@ class ProjectsController < ApplicationController
   def create
     @project = Project.new(project_params)
 
-    respond_to do |format|
-      if is_organization_admin? and @project.save
-        @project.team_members.create(user_id: @project.organization.owner_id)
-        format.html { redirect_to @project, notice: "Project was successfully created." }
-        format.json { render json: {
-          name: @project.name,
-          organization: @project.organization.name,
-          url: project_dashboard_path(@project.id)
-        } }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @project.errors, status: :unprocessable_entity }
-      end
+    if is_organization_admin? and @project.save
+      @project.team_members.create(user_id: @project.organization.owner_id)
+      render json: {
+        name: @project.name,
+        organization: @project.organization.name,
+        url: project_dashboard_path(@project.id)
+      }
+    else
+      render json: @project.errors, status: :unprocessable_entity
     end
   end
 
@@ -54,11 +32,9 @@ class ProjectsController < ApplicationController
   def update
     respond_to do |format|
       if (is_organization_admin? or is_project_pm?) and @project.update(project_params)
-        format.html { redirect_to project_dashboard_path(@project.id), notice: "Project was successfully updated." }
-        format.json { render :show, status: :ok, location: @project }
+        render :show, status: :ok, location: @project
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @project.errors, status: :unprocessable_entity }
+        render json: @project.errors, status: :unprocessable_entity
       end
     end
   end

@@ -1,23 +1,10 @@
 class TicketsController < ApplicationController
-  before_action :set_ticket, only: [ :show, :edit, :update, :destroy ]
-  before_action :authenticate_user!, only: [ :index, :show, :edit, :update, :destroy ]
-
-  # GET /tickets or /tickets.json
-  def index
-    @tickets = Ticket.all
-  end
+  before_action :set_ticket, only: [:show, :edit, :update, :destroy ]
+  before_action :authenticate_user!, only: [ :show, :edit, :update, :destroy ]
 
   # GET /tickets/1 or /tickets/1.json
   def show
-    respond_to do |format|
-      format.html
-      format.json { render json: @ticket}
-    end
-  end
-
-  # GET /tickets/new
-  def new
-    @ticket = Ticket.new
+    render json: @ticket
   end
 
   # GET /tickets/1/edit
@@ -30,21 +17,16 @@ class TicketsController < ApplicationController
   def create
     @ticket = Ticket.new(ticket_params)
     @ticket.submitted_by = current_user
-    respond_to do |format|
-      if @ticket.save
-        format.html { redirect_to ticket_dashboard_path(@ticket), notice: "Ticket was successfully created." }
-        format.json { render :show, status: :created, location: @ticket }
-      else
-        flash[:alert] = "Ticket could not be created."
-        format.html { redirect_to project_dashboard_path(params[:ticket][:project_id]) }
-        format.json { render json: @ticket.errors, status: :unprocessable_entity }
-      end
+    if @ticket.save
+      redirect_to ticket_dashboard_path(@ticket), notice: "Ticket was successfully created."
+    else
+      flash[:alert] = "Ticket could not be created."
+      redirect_to project_dashboard_path(params[:ticket][:project_id])
     end
   end
 
   # PATCH/PUT /tickets/1 or /tickets/1.json
   def update
-    respond_to do |format|
       find_changes
       
       # Prevent assigned dev from being empty string on update
@@ -53,14 +35,11 @@ class TicketsController < ApplicationController
       end
       
       if ok_to_edit? and save_histories and @ticket.update(ticket_params) 
-        format.html { redirect_to ticket_dashboard_path(@ticket.id), notice: "Ticket was successfully updated." }
-        format.json { render :show, status: :ok, location: @ticket }
+        redirect_to ticket_dashboard_path(@ticket.id), notice: "Ticket was successfully updated."
       else
         flash[:alert] = "Could not update ticket."
-        format.html { redirect_to ticket_dashboard_path(@ticket.id) }
-        format.json { render json: @ticket.errors, status: :unprocessable_entity }
+        redirect_to ticket_dashboard_path(@ticket.id)
       end
-    end
   end
 
   # DELETE /tickets/1 or /tickets/1.json

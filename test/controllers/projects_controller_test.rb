@@ -12,22 +12,17 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
     sign_in @user
   end
 
-  test "should get index" do
-    get projects_url
-    assert_response :success
-  end
-
   test "should create project" do
     assert_difference('Project.count') do
       post projects_url, params: { project: { description: "proj4", name: "proj4", organization_id: @org1.id } }
     end
 
-    assert_redirected_to project_url(Project.last)
-  end
+    project = Project.last
+    json_response = ActiveSupport::JSON.decode response.body
+    assert_equal "proj4", json_response["name"]
+    assert_equal "org1", json_response["organization"]
+    assert_equal project_dashboard_path(project), json_response["url"]
 
-  test "should show project" do
-    get project_url(@project)
-    assert_response :success
   end
 
   test "should get edit" do
@@ -37,7 +32,6 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
 
   test "should update project" do
     patch project_url(@project), params: { project: { description: @project.description, name: @project.name, organization_id: @project.organization_id } }
-    assert_redirected_to project_dashboard_url(@project)
   end
 
   test "should destroy project" do

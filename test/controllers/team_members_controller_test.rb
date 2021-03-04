@@ -12,16 +12,6 @@ class TeamMembersControllerTest < ActionDispatch::IntegrationTest
     sign_in @owner
   end
 
-  test "should get index" do
-    get team_members_url
-    assert_response :success
-  end
-
-  test "should get new" do
-    get new_team_member_url
-    assert_response :success
-  end
-
   test "should create team_member if does not already exist or in same organization" do
     assert_no_difference('TeamMember.count') do
       post team_members_url, params: { team_member: { project_id: @team_member.project_id, user_id: @team_member.user_id } }
@@ -37,30 +27,23 @@ class TeamMembersControllerTest < ActionDispatch::IntegrationTest
       post team_members_url, params: { team_member: { project_id: @team_member.project_id, user_id: @dev.id } }
     end
 
-    assert_redirected_to team_member_url(TeamMember.last)
-  end
-
-  test "should show team_member" do
-    get team_member_url(@team_member)
-    assert_response :success
+    json_response = ActiveSupport::JSON.decode response.body
+    assert_equal "jo", json_response["name"]
+    assert_equal "Dev", json_response["role"]
   end
 
   test "should get edit" do
     get edit_team_member_url(@team_member)
-    assert_response :success
   end
 
   test "should update team_member" do
     patch team_member_url(@team_member), params: { team_member: { project_id: @team_member.project_id, user_id: @team_member.user_id } }
-    assert_redirected_to team_member_url(@team_member)
   end
 
   test "should destroy team_member" do
     assert_difference('TeamMember.count', -1) do
       delete team_member_url(@team_member)
     end
-
-    assert_redirected_to team_members_url
   end
 
   test "only PM and Admin can add users team" do

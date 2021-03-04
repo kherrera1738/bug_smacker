@@ -1,20 +1,7 @@
 class OrganizationsController < ApplicationController
-  before_action :set_organization, only: %i[ show edit update destroy ]
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :set_organization, only: [ :edit, :update, :destroy ]
+  before_action :authenticate_user!, except: [ :index ]
   skip_before_action :verify_authenticity_token, only: [ :create ] 
-
-  # GET /organizations or /organizations.json
-  def index
-    @organizations = Organization.all
-  end
-
-  # GET /organizations/1 or /organizations/1.json
-  def show
-    respond_to do |format|
-      format.html
-      format.json { render json: @organization}
-    end
-  end
 
   # GET /organizations/new
   def new
@@ -29,22 +16,17 @@ class OrganizationsController < ApplicationController
   def create
     @organization = Organization.new(organization_params)
 
-    respond_to do |format|
-      if @organization.save
-        
-        # Create an admin role for the owner
-        @position = @organization.positions.create(filled_by_id: @organization.owner_id, role: 'Admin')
-        format.html { redirect_to @organization, notice: "Organization was successfully created." }
-        format.json { render json: {
-          organization: @organization.name,
-          role: @position.role,
-          owned: "True",
-          url: organization_dashboard_path(@organization.id)
-        } }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @organization.errors, status: :unprocessable_entity }
-      end
+    if @organization.save
+      # Create an admin role for the owner
+      @position = @organization.positions.create(filled_by_id: @organization.owner_id, role: 'Admin')
+      render json: {
+        organization: @organization.name,
+        role: @position.role,
+        owned: "True",
+        url: organization_dashboard_path(@organization.id)
+      } 
+    else
+      render json: @organization.errors, status: :unprocessable_entity
     end
   end
 
