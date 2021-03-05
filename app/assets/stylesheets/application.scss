@@ -213,6 +213,10 @@ a:visited {
   }
 }
 
+.btn-outline-light:focus {
+  color: white !important;
+}
+
 .ticket-card-body {
   background-color: #3f3f3fc9 !important;
 }

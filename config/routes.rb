@@ -10,21 +10,21 @@ Rails.application.routes.draw do
   
   # Trial Organization Urls
   get 'trials/organization', to: 'trials#org_dashboard', as: 'trial_organization'
-  get 'trials/edit_organization', to: 'trials#edit_org'
+  get 'trials/edit_organization', to: 'trials#edit_org', as: 'trials_edit_organization'
 
   # Trial Role Management Urls
-  get 'trials/manage_roles', to: 'trials#manage_roles'
+  get 'trials/manage_roles', to: 'trials#manage_roles', as: 'trials_manage_roles'
   get 'trials/manage_roles/content', to: 'trials#manage_roles_content'
   post 'trials/positions', to: 'trials#create_position'
   
   # Trial Project Urls
   get 'trials/project/:id', to: 'trials#project_dashboard', as: 'trial_project'
   get 'trials/project/content/:id', to: 'trials#project_content'
-  get 'trials/project/:id/add_ticket', to: 'trials#add_ticket'
-  get 'trials/edit_project/:id', to: 'trials#edit_proj'
+  get 'trials/project/:id/add_ticket', to: 'trials#add_ticket', as: 'trials_add_ticket'
+  get 'trials/edit_project/:id', to: 'trials#edit_proj', as: 'trails_edit_project'
   
   # Trial Project Management Urls
-  get 'trials/project/manage_team/:id', to: 'trials#manage_team'
+  get 'trials/project/manage_team/:id', to: 'trials#manage_team', as: 'trials_team_members'
   get 'trials/project/manage_team/:id/team_members', to: 'trials#index_team_members'
   get 'trials/project/manage_team/:id/positions', to: 'trials#index_positions'
   post 'trials/team_members', to: 'trials#add_team_member'

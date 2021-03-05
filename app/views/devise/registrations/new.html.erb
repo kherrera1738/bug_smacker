@@ -1,4 +1,4 @@
-
+<%= provide(:title, "Sign Up")%>
 
 <div class="container text-white">
   <h1 class="title">Sign Up</h1>
@@ -20,9 +20,11 @@
                     label_html: { class: "form-label" }  %>
         <%= f.input :password,
                     required: true,
-                    hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
                     input_html: { autocomplete: "new-password", class: "form-input" },
                     label_html: { class: "form-label" }  %>
+        <% if @minimum_password_length %>
+          <p><%= @minimum_password_length %> characters minimum</p>
+        <% end %>
         <%= f.input :password_confirmation,
                     required: true,
                     input_html: { autocomplete: "new-password", class: "form-input" },

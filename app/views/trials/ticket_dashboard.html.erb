@@ -1,3 +1,5 @@
+<%= provide(:title, "Trial Ticket Dashboard")%>
+
 <%= react_component("TicketDash", {uid: @user.id, 
                                   tid: @ticket.id, 
                                   ticketTitle: @ticket.title,

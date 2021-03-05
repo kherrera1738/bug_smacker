@@ -1,1 +1,3 @@
+<%= provide(:title, "Trial Roles Management")%>
+
 <%= react_component("RoleManageDash/index", { uid: @user.id, orgID: @organization.id, trialMode: true }) %>
