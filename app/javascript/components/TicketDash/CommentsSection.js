@@ -42,10 +42,10 @@ function CommentsSection({ comments, tid, trialMode }) {
 
   return (
     <>
-      <h1>Add Comment</h1>
+      <h1 className="mb-0">Add Comment</h1>
 
-      <form className="row mb-4">
-        <div className="col-11">
+      <form className="row mb-2">
+        <div className="col-12 col-sm-10 mb-2">
           <div className="input-group">
             <input
               type="text"
@@ -57,7 +57,7 @@ function CommentsSection({ comments, tid, trialMode }) {
           </div>
         </div>
 
-        <div className="col-1">
+        <div className="d-grid gap-2 col-2 mb-2">
           <button
             type="submit"
             className="btn btn-dark btn-lg"

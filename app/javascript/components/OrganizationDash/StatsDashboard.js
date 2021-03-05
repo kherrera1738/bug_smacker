@@ -11,6 +11,7 @@ function StatsDashboard({ priorities, types, assigned, statuses }) {
             graphType={"bar"}
             title={"Priorities"}
             card_label={"Tickets by Priority"}
+            legend={false}
           />
         </div>
         <div className="col-12 col-lg-6 col-xl-5 col-xxl-4 mb-4">
@@ -23,21 +24,23 @@ function StatsDashboard({ priorities, types, assigned, statuses }) {
         </div>
       </div>
       <div className="row justify-content-center">
-        <div className="col-12 col-xl-10 col-xxl-4 mb-4">
+        <div className="col-12 col-lg-6 col-xl-5 col-xxl-4 mb-4">
           <DataGraph
             dataset={statuses}
             graphType={"bar"}
             title={"Status"}
             card_label={"Tickets by Status"}
+            legend={false}
           />
         </div>
-        <div className="col-12 col-xl-10 col-xxl-4 mb-4">
+        <div className="col-12 col-lg-6 col-xl-5 col-xxl-4 mb-4">
           <DataGraph
             dataset={assigned}
             graphType={"doughnut"}
             title={"Assigned"}
             card_label={"Tickets by Assigned"}
             randomColor={true}
+            legend={false}
           />
         </div>
       </div>

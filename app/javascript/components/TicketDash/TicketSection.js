@@ -27,7 +27,7 @@ function TicketSection({ ticketInfo, tid, trialMode }) {
         </div>
       </div>
       <div className="row text-white justify-content-center">
-        <div className="col-12 col-xl-10 col-xxl-8 mb-4">
+        <div className="col-12 col-xl-10 col-xxl-8">
           <CommentsSection
             comments={ticketInfo.comments}
             tid={tid}

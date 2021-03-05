@@ -7,13 +7,18 @@ function DataGraph({
   title,
   card_label,
   randomColor = false,
+  legend = true,
 }) {
   const chartContainer = React.createRef();
   const [chartInstance, setChartInstance] = useState(null);
 
   const { labels, data } = dataset;
 
-  var options = {};
+  var options = {
+    legend: {
+      display: legend,
+    },
+  };
   var borderColor = [
     "rgba(255, 99, 132, 1)",
     "rgba(57, 134, 228, 1)",
@@ -39,10 +44,8 @@ function DataGraph({
 
   // Start y-axis at 0 if this is a bar graph
   if (graphType === "bar") {
-    options = {
-      scales: {
-        yAxes: [{ ticks: { beginAtZero: true, stepSize: 1 } }],
-      },
+    options.scales = {
+      yAxes: [{ ticks: { beginAtZero: true, stepSize: 1 } }],
     };
   }
 
